@@ -1,6 +1,9 @@
 # Modding-Tool-for-Brawl-Stars
 This is a tool to make easier brawl stars modding using csv manipulation
 
+if you want to support me, just subscribe
+https://www.youtube.com/channel/UCqe_saetEaDRMExYE-y-7Gw
+
 Whats does the tool do ?
 It create a new custom attack in skills.csv and with the usage of essentials questions, it's create the attack for you.
 

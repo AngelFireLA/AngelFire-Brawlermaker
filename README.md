@@ -21,6 +21,7 @@ After that you can check your csv file and verify if the row was correctly creat
 Now you just need to change the brawlers' attack in characters.csv (lookup for tutorial if you don't know how)
 
 Features Planned :
+- choose what version of brawl stars
 - Creation of supers
 - Creation of Charges
 - Creation of basic brawlers using cards.csv and characters.csv

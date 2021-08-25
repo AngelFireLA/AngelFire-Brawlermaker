@@ -18,7 +18,7 @@ Requirements :
 Python
 The tool
 characters.csv cards.csv skins.csv skin_conf.csv for the creation of a brawler and skills.csv if you want ot create an attack
-Rebrawl mods or classic files
+It support v**29 for brawlers and attacks** and it support **only attacks for v30**
 (Rebrawl classic patch 8/25 https://www.mediafire.com/file/k0bkac0789zy7c8/30_231_0820_-_Classic.zip/file)
 
 (Rebrawl mods patch 8/25 https://www.mediafire.com/file/b36whcahbi75bxu/29_258_0820_-_Mods.zip/file) 

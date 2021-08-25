@@ -5,28 +5,33 @@ if you want to support me, just subscribe
 https://www.youtube.com/channel/UCqe_saetEaDRMExYE-y-7Gw
 
 Whats does the tool do ?
-It create a new custom attack in skills.csv and with the usage of essentials questions, it's create the attack for you.
+You can creates **Custom Brawlers** and **Custom attacks, supers** even support for charge and spawnable
 
 For now what does it support ?
 Support only both rebrawl classic and Mods for now.
+It support partially cards.csv and characters.csv
 It fully support skills.csv
-It don't support supers, charges, and spawners
-For now it don't support any other csv files and you will need to create the other ones by yourself.
+It don' support supers, charges, and spawners
+
 
 Requirements :
 Python
 The tool
-the skills.csv file that you want to mod.
+characters.csv cards.csv skins.csv skin_conf.csv for the creation of a brawler and skills.csv if you want ot create an attack
 Rebrawl mods or classic files
 (Rebrawl classic patch 8/25 https://www.mediafire.com/file/k0bkac0789zy7c8/30_231_0820_-_Classic.zip/file)
 
 (Rebrawl mods patch 8/25 https://www.mediafire.com/file/b36whcahbi75bxu/29_258_0820_-_Mods.zip/file) 
 
 How to use ?
-Place both the tool and the skills.csv in the same folder
-Then run the tool and answer the questions.
+Place both the tool and the csv files in the same folder
+(for the name it's prefered to start with an uppercase)
+Run the tool and create an attack
+Then create a super while using **the exact same name**
+When you created attack and super you can create the brawler and keep **the exact same name**
 After that you can check your csv file and verify if the row was correctly created
-Now you just need to change the brawlers' attack in characters.csv (lookup for tutorial if you don't know how)
+Now you just need to apply the changes using the parallel space method (normal apk changing won't work with the addtion of a brawler)
+https://www.reddit.com/r/brawlstarsmodding/comments/i7mzo7/tutorial_how_to_mod_rebrawl_and_other_private/
 
 CHANGELOG :
 8/25/2021:
@@ -34,11 +39,15 @@ CHANGELOG :
 - added full support for supers
 - started support for multiple brawl stars versions
 
+8/25/2021 bis :
+- added support for creation of a brawler
+
 
 
 Features Planned :
-- choose what version of brawl stars
-- Creation of basic brawlers using cards.csv and characters.csv
+- more customization in the brawler like texts and skins
+- ~~choose what version of brawl stars~~
+-~~Creation of basic brawlers using cards.csv and characters.csv~~
 - Creation of custom projectiles in projectiles.csv
 - Creation of Star Powers
 - Creation of Gadgets

@@ -4,6 +4,8 @@ This is a tool to make easier brawl stars modding using csv manipulation
 if you want to support me, just subscribe
 https://www.youtube.com/channel/UCqe_saetEaDRMExYE-y-7Gw
 
+Video has been stroked, here is the link to the video ;
+https://www.mediafire.com/file/ea94ry27vj3x185/brawlstarsmoddingtutorial2.mov/file
 Whats does the tool do ?
 You can creates **Custom Brawlers** and **Custom attacks, supers** even support for charge and spawnable
 

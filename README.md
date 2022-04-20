@@ -4,7 +4,7 @@ This is a tool to make easier brawl stars modding using csv manipulation
 if you want to support me, just subscribe
 https://www.youtube.com/channel/UCqe_saetEaDRMExYE-y-7Gw
 
-Video has been stroked, here is the link to the video ;
+Video has been striked, here is the link to the video ;
 https://www.mediafire.com/file/ea94ry27vj3x185/brawlstarsmoddingtutorial2.mov/file
 Whats does the tool do ?
 You can creates **Custom Brawlers** and **Custom attacks, supers** even support for charge and spawnable
@@ -13,19 +13,18 @@ For now what does it support ?
 Support only both rebrawl classic and Mods for now.
 It support partially cards.csv and characters.csv
 It fully support skills.csv
-It don' support supers, charges, and spawners
+It support supers, charges, and spawners
 
 
 Requirements :
 Python
 The tool
 characters.csv cards.csv skins.csv skin_conf.csv for the creation of a brawler and skills.csv if you want ot create an attack
-It support v**29 for brawlers and attacks** and it support **only attacks for v30**
-(Rebrawl classic patch 8/25 https://www.mediafire.com/file/k0bkac0789zy7c8/30_231_0820_-_Classic.zip/file)
+It support rebrawl mods
 
-(Rebrawl mods patch 8/25 https://www.mediafire.com/file/b36whcahbi75bxu/29_258_0820_-_Mods.zip/file) 
+(Rebrawl mods patch 8/25/2021 https://www.mediafire.com/file/b36whcahbi75bxu/29_258_0820_-_Mods.zip/file) 
 
-How to use ?
+How to use ? (OBSOLETE UPDATE IS COMING)
 Place both the tool and the csv files in the same folder
 (for the name it's prefered to start with an uppercase)
 Run the tool and create an attack

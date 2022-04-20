@@ -46,11 +46,4 @@ CHANGELOG :
 
 
 Features Planned :
-- more customization in the brawler like texts and skins
-- ~~choose what version of brawl stars~~
--~~Creation of basic brawlers using cards.csv and characters.csv~~
-- Creation of custom projectiles in projectiles.csv
-- Creation of Star Powers
-- Creation of Gadgets
-- Creation of area effetcs
-- Better look by replacing command prompt
+new

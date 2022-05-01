@@ -13,6 +13,7 @@ Video Tutorial Link : https://youtu.be/axwXPbOmEAI (tutorial stars at 3:29)
 Warning : Don't use clone feature, download Brawler Maker from releases only if you can
 
 How to Run it : "python app.py" in the same folder in command prompt
+(if it doesn't work try to put *pythonfolderpath*\python.exe main.py)
 
 Requirements :
 - Computer

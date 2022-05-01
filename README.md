@@ -8,7 +8,7 @@ https://www.youtube.com/channel/UCqe_saetEaDRMExYE-y-7Gw
 
 Duscord Link : https://discord.gg/B3bKcEvWEA
 
-Video Tutorial Link : https://youtu.be/axwXPbOmEAI
+Video Tutorial Link : https://youtu.be/axwXPbOmEAI (tutorial stars at 3:29)
 
 Requirements :
 Computer

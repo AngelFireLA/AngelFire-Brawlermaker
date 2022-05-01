@@ -10,10 +10,12 @@ Duscord Link : https://discord.gg/B3bKcEvWEA
 
 Video Tutorial Link : https://youtu.be/axwXPbOmEAI (tutorial stars at 3:29)
 
+Warning : Don't use clone feature, download Brawler Maker from releases only if you can
+
 Requirements :
-Computer
-Python 3.xxx
-Java
+- Computer
+- Python 3.9 (3.10 not working and haven't tester previes bversions)
+- Java
 pip install mega.py
 
 

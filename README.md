@@ -12,11 +12,13 @@ Video Tutorial Link : https://youtu.be/axwXPbOmEAI (tutorial stars at 3:29)
 
 Warning : Don't use clone feature, download Brawler Maker from releases only if you can
 
+How to Run it : "python app.py" in the same folder in command prompt
+
 Requirements :
 - Computer
 - Python 3.9 (3.10 not working and haven't tester previes bversions)
 - Java
-pip install mega.py
+- pip install mega.py
 
 
 Features planned :

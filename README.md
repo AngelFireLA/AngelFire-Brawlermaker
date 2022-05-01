@@ -16,7 +16,7 @@ How to Run it : "python app.py" in the same folder in command prompt
 
 Requirements :
 - Computer
-- Python 3.9 (3.10 not working and haven't tester previes bversions)
+- Python 3.xxx (not 3.10) python must be added to PATH
 - Java
 - pip install mega.py
 

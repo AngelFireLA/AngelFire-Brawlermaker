@@ -17,10 +17,22 @@ How to Run it : "python app.py" in the same folder in command prompt
 
 Requirements :
 - Computer
-- Python 3.xxx (not 3.10) python must be added to PATH
-- Java
-- pip install mega.py
 
+**Text Tutorial for windows :**
+- download lastest version of Brawler Maker from releases section of github
+- extract the .zip to a folder
+- launch the .exe
+
+**Text Tutorial for linux :**
+- download python 3.9 (in installation menu check the box "add to Path" or there will be an error)
+- download lastest version of Brawler Maker from releases section of github
+- extract the .zip to a folder
+- launch once "Launch this if it is the first time ever you launch brawler maker"
+- if no errors, delete "Launch this if it is the first time ever you launch brawler maker", but if python or pip isn't recognised, look on google "how to add Python to PATH"
+- then just use "Launch Brawler maker" to launch Brawler Maker
+
+**Text Tutorial for android :**
+- soon
 
 Features planned :
 https://trello.com/b/GAFAjjzQ/brawl-stars-brawl-maker

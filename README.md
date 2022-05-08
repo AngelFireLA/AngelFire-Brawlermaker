@@ -19,11 +19,15 @@ Requirements :
 - Computer
 
 **Text Tutorial for windows :**
+- install python 3.9 (don't forget to check "Add to PATH")
 - download lastest version of Brawler Maker from releases section of github
 - extract the .zip to a folder
-- launch the .exe
+- open cmd
+- type pip install mega.py
+- now open command prompt in folder of the tool
+- type python mega.py
 
-**Text Tutorial for linux :**
+**Text Tutorial for linux  (not ready yet) :**
 - download python 3.9 (in installation menu check the box "add to Path" or there will be an error)
 - download lastest version of Brawler Maker from releases section of github
 - extract the .zip to a folder

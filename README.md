@@ -9,6 +9,8 @@ https://www.youtube.com/channel/UCqe_saetEaDRMExYE-y-7Gw
 Duscord Link : https://discord.gg/B3bKcEvWEA
 
 Video Tutorial Link : https://youtu.be/axwXPbOmEAI (tutorial stars at 3:29)
+(old video tutorials : - https://www.mediafire.com/file/jhn46xs828w00nn/moddingtutorial.mp4/file
+                       - https://www.mediafire.com/file/ea94ry27vj3x185/brawlstarsmoddingtutorial2.mov/file
 
 Warning : Don't use clone feature, download Brawler Maker from releases only if you can
 

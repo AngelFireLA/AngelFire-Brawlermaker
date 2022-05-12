@@ -4,26 +4,27 @@ import random
 import shutil
 import tkinter
 import tkinter as tk
-import zipfile
-import apk_signer as signer
-
 import mega
 from mega import Mega
 from tkinter import filedialog
 from zipfile import ZipFile
-
+import sys
 
 
 mega = Mega()
 
+
 root = tk.Tk()
 root.state('zoomed')
+
+width = root.winfo_screenwidth()
+height = root.winfo_screenheight()
 
 csv_logic_path = ""
 csv_localization_path = ""
 current_path = os.path.abspath(os.getcwd())
 
-multibrawl_mod_link = 'https://mega.nz/file/zxFXiYwS#59n4MtQ6kTuM2SKCSVIn-fgHyYSmI5yHJG9-5F6lW5U'
+multibrawl_mod_link = 'https://mega.nz/file/EEtAERzI#Zn1tePmg0qzdKblTmIsvb61xcwrzB0ynkQP0SmSGaRg'
 multibrawl_mod_name = 'Multi Brawl V38 Online'
 multibrawl_classic_link = 'https://mega.nz/file/4UUDSZyQ#txA_jXb0m6zFL5_V7uxNGGG9jEgl9Ldz0rwBde9u-LQ'
 multibrawl_classic_name = 'Multi Brawl Cl V37.9'
@@ -60,22 +61,32 @@ button_hidden = 0
 chosen_option = 0
 
 
+def my_path(path_name):
+    """Return the appropriate path for data files based on execution context"""
+    if getattr( sys, 'frozen', False ):
+        # running in a bundle
+        return(os.path.join(sys._MEIPASS, path_name))
+    else:
+        # running live
+        return path_name
+
+
 def start_button():
     startButton.place_forget()
-    apk_or_csv__csv.place(x=630, y=540, anchor=tk.CENTER)
+    apk_or_csv__csv.place(x=width/3, y=height/2, anchor=tk.CENTER)
     apk_or_csv__csv.config(command=lambda: get_csv_manually())
-    apk_or_csv__apk.place(x=1290, y=540, anchor=tk.CENTER)
+    apk_or_csv__apk.place(x=width/1.5, y=height/2, anchor=tk.CENTER)
     apk_or_csv__apk.config(command=lambda: get_csv_from_apk())
 
 
 def get_csv_from_apk():
     apk_or_csv__csv.place_forget()
     apk_or_csv__apk.place_forget()
-    normal_brawlers__apk.place(x=130, y=540)
+    normal_brawlers__apk.place(x=width/14.75, y=height/2)
     normal_brawlers__apk.config(command=lambda: result_have_normal_brawlers_only())
-    custom_brawlers__apk.place(x=990, y=540)
+    custom_brawlers__apk.place(x=width/1.93, y=height/2)
     custom_brawlers__apk.config(command=lambda: result_have_custom_brawlers())
-    ProgramStoppedResponding.place(x=930, y=240, anchor=tk.CENTER)
+    ProgramStoppedResponding.place(x=width/1.93, y=height/4.5, anchor=tk.CENTER)
 
 
 def result_have_normal_brawlers_only():
@@ -130,7 +141,7 @@ def get_csv_manually():
     apk_or_csv__csv.place_forget()
     apk_or_csv__apk.place_forget()
     openFolder.pack()
-    openFolder.place(x=960, y=540, anchor=tk.CENTER)
+    openFolder.place(x=width/2, y=height/2, anchor=tk.CENTER)
 
 
 def csv_logic_path_selector():
@@ -144,7 +155,7 @@ def csv_logic_path_selector():
         shutil.copytree(csv_logic_path, os.path.join(current_path, "csv_logic"))
         print("copied csv logic folder")
         openFolder.place_forget()
-        openLocalization.place(x=960, y=540, anchor=tk.CENTER)
+        openLocalization.place(x=width/2, y=height/2, anchor=tk.CENTER)
         openLocalization.config(command=lambda: csv_localization_pack_selector())
 
 
@@ -206,24 +217,24 @@ def hide_button_1(x):
 
 
 def set_brawler_texts_csv_1():
-    brawlerNameButton.place(x=100, y=250)
+    brawlerNameButton.place(x=width/19.2, y=height/4)
     brawlerNameButton.config(command=lambda: hide_button_1(brawlerNameButton))
     text_entry1.place(x=100, y=200)
-    brawlerDescriptionButton.place(x=1000, y=250)
+    brawlerDescriptionButton.place(x=width/1.92, y=height/4)
     brawlerDescriptionButton.config(command=lambda: hide_button_1(brawlerDescriptionButton))
-    text_entry2.place(x=1000, y=200)
-    brawlerAttackName.place(x=100, y=550)
+    text_entry2.place(x=width/1.92, y=height/5.4)
+    brawlerAttackName.place(x=width/19.2, y=height/1.96)
     brawlerAttackName.config(command=lambda: hide_button_1(brawlerAttackName))
-    text_entry3.place(x=100, y=500)
-    brawlerAttackDescription.place(x=100, y=750)
+    text_entry3.place(x=width/19.2, y=height/2.16)
+    brawlerAttackDescription.place(x=width/19.2, y=height/1.44)
     brawlerAttackDescription.config(command=lambda: hide_button_1(brawlerAttackDescription))
-    text_entry4.place(x=100, y=700)
-    brawlerUltiName.place(x=1000, y=550)
+    text_entry4.place(x=width/19.2, y=height/1.54)
+    brawlerUltiName.place(x=width/1.92, y=height/1.96)
     brawlerUltiName.config(command=lambda: hide_button_1(brawlerUltiName))
-    text_entry5.place(x=1000, y=500)
-    brawlerUltiDescription.place(x=1000, y=750)
+    text_entry5.place(x=width/1.92, y=height/2.16)
+    brawlerUltiDescription.place(x=width/1.92, y=height/1.44)
     brawlerUltiDescription.config(command=lambda: hide_button_1(brawlerUltiDescription))
-    text_entry6.place(x=1000, y=700)
+    text_entry6.place(x=width/1.92, y=height/1.54)
 
 
 def set_brawler_texts_csv_2():
@@ -254,17 +265,17 @@ def set_brawler_texts_csv_2():
         csv_writer.writerow(['TID_' + capbrawlername + '_WEAPON_DESC', attack_description])
         csv_writer.writerow(['TID_' + capbrawlername + '_ULTI', ulti_name])
         csv_writer.writerow(['TID_' + capbrawlername + '_ULTI_DESC', ulti_description])
-    brawlerRarityCommon.place(x=300, y=150)
+    brawlerRarityCommon.place(x=width/6.4, y=height/7.2)
     brawlerRarityCommon.config(command=lambda: set_brawler_cards_csv("common"))
-    brawlerRarityRare.place(x=300, y=550)
+    brawlerRarityRare.place(x=width/6.4, y=height/1.96)
     brawlerRarityRare.config(command=lambda: set_brawler_cards_csv("rare"))
-    brawlerRaritySuperRare.place(x=800, y=550)
+    brawlerRaritySuperRare.place(x=width/2.4, y=height/1.96)
     brawlerRaritySuperRare.config(command=lambda: set_brawler_cards_csv("super_rare"))
-    brawlerRarityEpic.place(x=1300, y=550)
+    brawlerRarityEpic.place(x=width/1.47, y=height/1.96)
     brawlerRarityEpic.config(command=lambda: set_brawler_cards_csv("epic"))
-    brawlerRarityMythic.place(x=800, y=150)
+    brawlerRarityMythic.place(x=width/2.4, y=height/7.2)
     brawlerRarityMythic.config(command=lambda: set_brawler_cards_csv("mega_epic"))
-    brawlerRarityLegendary.place(x=1300, y=150)
+    brawlerRarityLegendary.place(x=width/1.47, y=height/7.2)
     brawlerRarityLegendary.config(command=lambda: set_brawler_cards_csv("legendary"))
 
 
@@ -305,18 +316,18 @@ def set_brawler_characters_csv_1():
     text_entry4.delete(0, tkinter.END)
     text_entry5.delete(0, tkinter.END)
     text_entry6.delete(0, tkinter.END)
-    brawlerSpeedButton.place(x=100, y=250)
+    brawlerSpeedButton.place(x=width/19.2, y=height/4)
     brawlerSpeedButton.config(command=lambda: hide_button_1(brawlerSpeedButton))
-    text_entry1.place(x=100, y=200)
-    brawlerHealthButton.place(x=1000, y=250)
+    text_entry1.place(x=width/19.2, y=height/5)
+    brawlerHealthButton.place(x=width/1.92, y=height/4)
     brawlerHealthButton.config(command=lambda: hide_button_1(brawlerHealthButton))
-    text_entry2.place(x=1000, y=200)
-    brawlerScaleButton.place(x=100, y=550)
+    text_entry2.place(x=width/1.92, y=height/5)
+    brawlerScaleButton.place(x=width/19.2, y=height/1.96)
     brawlerScaleButton.config(command=lambda: hide_button_1(brawlerScaleButton))
-    text_entry3.place(x=100, y=500)
-    brawlerIconButton.place(x=100, y=750)
+    text_entry3.place(x=width/19.2, y=height/2.16)
+    brawlerIconButton.place(x=width/19.2, y=height/1.44)
     brawlerIconButton.config(command=lambda: hide_button_1(brawlerIconButton))
-    text_entry4.place(x=100, y=700)
+    text_entry4.place(x=width/19.2, y=height/1.54)
 
 
 def set_brawler_characters_csv_2():
@@ -329,8 +340,8 @@ def set_brawler_characters_csv_2():
     hp = text_entry2.get()
     scale = text_entry3.get()
     icon = text_entry4.get()
-    ultichargemul = random.randint(80, 135)
-    ultichargeultimul = random.randint(85, 150)
+    ultichargemul = random.randint(100, 135)
+    ultichargeultimul = random.randint(100, 150)
     capbrawlername = brawlername.upper()
     filename = os.path.join(os.path.join(current_path, csv_logic_path), 'characters.csv')
     with open(filename, 'a', newline="") as file:
@@ -373,7 +384,7 @@ def generate_brawler_skin_files():
              'true', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '',
              '',
              '', '', '', '', '', ', '', ', '', '', '', ''])
-    MainAttackNextButton.place(x=500, y=350)
+    MainAttackNextButton.place(x=width/2, y=height/2)
     MainAttackNextButton.config(command=lambda: set_brawler_skill_csv_attack_1())
 
 
@@ -387,35 +398,35 @@ def set_brawler_skill_csv_attack_1():
     text_entry7.delete(0, tkinter.END)
     text_entry8.delete(0, tkinter.END)
     MainAttackNextButton.place_forget()
-    brawlerAttackRange.place(x=100, y=150)
+    brawlerAttackRange.place(x=width/19.2, y=height/7.2)
     brawlerAttackRange.config(command=lambda: hide_button_1(brawlerAttackRange))
-    text_entry1.place(x=100, y=100)
-    brawlerAttackProjectile.place(x=1000, y=250)
+    text_entry1.place(x=width/19.2, y=height/10.8)
+    brawlerAttackProjectile.place(x=width/1.92, y=height/4.32)
     brawlerAttackProjectile.config(command=lambda: show_attack_or_ulti_buttons())
-    text_entry2.place(x=1000, y=200)
-    brawlerAttackProjectileNumber.place(x=100, y=550)
+    text_entry2.place(x=width/1.92, y=height/5.4)
+    brawlerAttackProjectileNumber.place(x=width/19.2, y=height/1.96)
     brawlerAttackProjectileNumber.config(command=lambda: hide_button_1(brawlerAttackProjectileNumber))
-    text_entry5.place(x=100, y=500)
-    brawlerAttackDamage.place(x=1000, y=750)
+    text_entry5.place(x=width/19.2, y=height/2.16)
+    brawlerAttackDamage.place(x=width/1.92, y=height/1.44)
     brawlerAttackDamage.config(command=lambda: hide_button_1(brawlerAttackDamage))
-    text_entry6.place(x=1000, y=700)
-    brawlerAttackReloadTime.place(x=1000, y=550)
+    text_entry6.place(x=width/1.92, y=height/1.54)
+    brawlerAttackReloadTime.place(x=width/1.92, y=height/1.96)
     brawlerAttackReloadTime.config(command=lambda: hide_button_1(brawlerAttackReloadTime))
-    text_entry7.place(x=1000, y=500)
-    brawlerAttackAmmoNumber.place(x=50, y=750)
+    text_entry7.place(x=width/1.92, y=height/2.16)
+    brawlerAttackAmmoNumber.place(x=width/38.4, y=height/1.44)
     brawlerAttackAmmoNumber.config(command=lambda: hide_button_1(brawlerAttackAmmoNumber))
-    text_entry8.place(x=50, y=700)
-    brawlerAttackSpread.place(x=100, y=350)
+    text_entry8.place(x=width/38.4, y=height/1.54)
+    brawlerAttackSpread.place(x=width/19.2, y=height/3.08)
     brawlerAttackSpread.config(command=lambda: hide_button_1(brawlerAttackSpread))
-    text_entry9.place(x=100, y=300)
+    text_entry9.place(x=width/19.2, y=height/3.6)
 
 
 def show_attack_or_ulti_buttons():
     brawlerAttackProjectile.place_forget()
     text_entry2.place_forget()
-    brawlerAttackProjectileAttackOrUlti_Attack.place(x=1000, y=250)
+    brawlerAttackProjectileAttackOrUlti_Attack.place(x=width/1.92, y=height/4)
     brawlerAttackProjectileAttackOrUlti_Attack.config(command=lambda: set_attack_projectile_ulti_or_attack(1))
-    brawlerAttackProjectileAttackOrUlti_Super.place(x=1000, y=350)
+    brawlerAttackProjectileAttackOrUlti_Super.place(x=width/1.92, y=height/3.08)
     brawlerAttackProjectileAttackOrUlti_Super.config(command=lambda: set_attack_projectile_ulti_or_attack(1))
 
 
@@ -452,7 +463,7 @@ def set_brawler_skill_csv_attack_2():
     elif projectile == "barley":
         projectiles = "Barkeep"
     elif projectile == "jessie":
-        projectiles = "Mechanic"
+        projectiles = "Mechanic1"
     elif projectile == "nita":
         projectiles = "Shaman"
     elif projectile == "dynamike":
@@ -549,29 +560,29 @@ def set_brawler_skill_csv_super_1():
     text_entry7.delete(0, tkinter.END)
     text_entry8.delete(0, tkinter.END)
     SuperNextButton.place_forget()
-    brawlerSuperRange.place(x=100, y=150)
+    brawlerSuperRange.place(x=width/19.2, y=height/7.2)
     brawlerSuperRange.config(command=lambda: hide_button_1(brawlerSuperRange))
-    text_entry1.place(x=100, y=100)
-    brawlerSuperProjectile.place(x=1000, y=350)
+    text_entry1.place(x=width/19.2, y=height/10.8)
+    brawlerSuperProjectile.place(x=width/1.92, y=height/3.08)
     brawlerSuperProjectile.config(command=lambda: show_attack_or_ulti_buttons_super())
-    text_entry2.place(x=1000, y=300)
-    brawlerSuperProjectileNumber.place(x=100, y=550)
+    text_entry2.place(x=width/1.92, y=height/3.6)
+    brawlerSuperProjectileNumber.place(x=100, y=height/1.96)
     brawlerSuperProjectileNumber.config(command=lambda: hide_button_1(brawlerSuperProjectileNumber))
-    text_entry5.place(x=100, y=500)
-    brawlerSuperDamage.place(x=1000, y=750)
+    text_entry5.place(x=width/19.2, y=height/2.16)
+    brawlerSuperDamage.place(x=width/19.2, y=height/1.44)
     brawlerSuperDamage.config(command=lambda: hide_button_1(brawlerSuperDamage))
-    text_entry6.place(x=1000, y=700)
-    brawlerSuperSpread.place(x=100, y=350)
+    text_entry6.place(x=width/19.2, y=height/1.54)
+    brawlerSuperSpread.place(x=width/19.2, y=height/3.08)
     brawlerSuperSpread.config(command=lambda: hide_button_1(brawlerSuperSpread))
-    text_entry9.place(x=100, y=300)
+    text_entry9.place(x=width/19.2, y=height/3.6)
 
 
 def show_attack_or_ulti_buttons_super():
     brawlerSuperProjectile.place_forget()
     text_entry2.place_forget()
-    brawlerSuperProjectileAttackOrUlti_Attack.place(x=1000, y=250)
+    brawlerSuperProjectileAttackOrUlti_Attack.place(x=width/1.92, y=height/4.32)
     brawlerSuperProjectileAttackOrUlti_Attack.config(command=lambda: set_attack_projectile_ulti_or_attack_super(1))
-    brawlerSuperProjectileAttackOrUlti_Super.place(x=1000, y=350)
+    brawlerSuperProjectileAttackOrUlti_Super.place(x=width/1.92, y=height/3.08)
     brawlerSuperProjectileAttackOrUlti_Super.config(command=lambda: set_attack_projectile_ulti_or_attack_super(2))
 
 
@@ -608,7 +619,7 @@ def set_brawler_skill_csv_super_2():
     elif projectile == "barley":
         projectiles = "Barkeep"
     elif projectile == "jessie":
-        projectiles = "Mechanic"
+        projectiles = "Mechanic1"
     elif projectile == "nita":
         projectiles = "Shaman"
     elif projectile == "dynamike":
@@ -691,7 +702,7 @@ def set_brawler_skill_csv_super_2():
              'true', '', '', '', '', '', '', '', '', projectiles + projectiletype, '', '', '', '', '', '', '', '',
              'sc/ui.sc', 'rapid_fire_button', 'rico_def_atk', '', '', '', '', '', '', '', '', '', '', '', ''])
     if chosen_option == 1:
-        ProgramFinished.place(x=600, y=500)
+        ProgramFinished.place(x=width/3.2, y=height/2.16)
     elif chosen_option == 2:
         if os.path.exists(os.path.join(current_path, multibrawl_mod_name + " - Brawler Maker")):
             shutil.rmtree(os.path.join(current_path, multibrawl_mod_name + " - Brawler Maker"))
@@ -702,8 +713,8 @@ def set_brawler_skill_csv_super_2():
             os.remove(os.path.join(current_path, multibrawl_mod_name.replace(' ', '-') + "-BrawlerMaker" + ".apk"))
         shutil.make_archive(multibrawl_mod_name + " - Brawler Maker", "zip", os.path.join(current_path, multibrawl_mod_name + " - Brawler Maker"))
         os.rename(os.path.join(current_path, multibrawl_mod_name + " - Brawler Maker" + ".zip"), multibrawl_mod_name.replace(' ', '-') + "-BrawlerMaker" + ".apk")
-        os.system('java -jar ' + current_path + '/uber-apk-signer.jar -a ' + current_path + "/" + multibrawl_mod_name.replace(' ', '-') + '-BrawlerMaker' + '.apk' + ' --debug')
-        ProgramFinished.place(x=600, y=500)
+        os.system('java -jar ' + my_path("uber-apk-signer.jar") + ' -a ' + current_path + "/" + multibrawl_mod_name.replace(' ', '-') + '-BrawlerMaker' + '.apk' + ' --debug')
+        ProgramFinished.place(x=width/3.2, y=height/2.16)
     elif chosen_option == 3:
         if os.path.exists(os.path.join(current_path, multibrawl_classic_name + " - Brawler Maker")):
             shutil.rmtree(os.path.join(current_path, multibrawl_classic_name + " - Brawler Maker"))
@@ -714,11 +725,11 @@ def set_brawler_skill_csv_super_2():
             os.remove(os.path.join(current_path, multibrawl_classic_name.replace(' ', '-') + "-BrawlerMaker" + ".apk"))
         shutil.make_archive(multibrawl_classic_name + " - Brawler Maker", "zip", os.path.join(current_path, multibrawl_classic_name + " - Brawler Maker"))
         os.rename(os.path.join(current_path, multibrawl_classic_name + " - Brawler Maker" + ".zip"), multibrawl_classic_name.replace(' ', '-') + "-BrawlerMaker" + ".apk")
-        os.system('java -jar ' + current_path + '/uber-apk-signer.jar -a ' + current_path + "/" + multibrawl_classic_name.replace(' ', '-') + '-BrawlerMaker' + '.apk' + " --debug")
-        ProgramFinished.place(x=600, y=500)
+        os.system('java -jar ' + my_path("uber-apk-signer.jar") + ' -a ' + current_path + "/" + multibrawl_classic_name.replace(' ', '-') + '-BrawlerMaker' + '.apk' + " --debug")
+        ProgramFinished.place(x=width/3.2, y=height/2.16)
 
 
-canvas = tk.Canvas(root, height=1080, width=1920)
+canvas = tk.Canvas(root, height=height, width=width)
 canvas.pack()
 
 rebrawlModsWarning = tk.Label(root, text="Apks Provided by MultiBrawl ! Works only for v29 servers !",
@@ -729,7 +740,7 @@ rebrawlModsWarning.place(x=0, y=0)
 ProgramFinished = tk.Label(root, text="Your Folders are Ready !", font=("Times", 40, "bold"), fg="black")
 startButton = tk.Button(root, text="Start", font=("Times", 40, "bold"), fg="black")
 startButton.pack
-startButton.place(x=960, y=540, anchor=tk.CENTER)
+startButton.place(x=width/2, y=height/2, anchor=tk.CENTER)
 startButton.config(command=lambda: start_button())
 
 ProgramStoppedResponding = tk.Label(root, text="Program may stop responding here and at the end of the script. (Speed depends on your wifi and your computer)", font=("Times", 25, "bold"), fg="black")
@@ -756,12 +767,12 @@ text_entry9 = tk.Entry(root, font=("Times", 20))
 brawlerNameButton = tk.Button(root, text="Enter Brawler Name", font=("Times", 20, "bold"))
 brawlerDescriptionButton = tk.Button(root, text="Enter Brawler Description", font=("Times", 20, "bold"))
 
-common_rarity_image = tk.PhotoImage(file='images/common_rarity.gif')
-rare_rarity_image = tk.PhotoImage(file='images/rare_rarity.gif')
-super_rare_rarity_image = tk.PhotoImage(file='images/super_rare_rarity.gif')
-epic_rarity_image = tk.PhotoImage(file='images/epic_rarity.gif')
-mythic_rarity_image = tk.PhotoImage(file='images/mythic_rarity.gif')
-legendary_rarity_image = tk.PhotoImage(file='images/legendary_rarity.gif')
+common_rarity_image = tk.PhotoImage(file=(my_path("common_rarity.gif")))
+rare_rarity_image = tk.PhotoImage(file=(my_path("rare_rarity.gif")))
+super_rare_rarity_image = tk.PhotoImage(file=(my_path("super_rare_rarity.gif")))
+epic_rarity_image = tk.PhotoImage(file=(my_path("epic_rarity.gif")))
+mythic_rarity_image = tk.PhotoImage(file=(my_path("mythic_rarity.gif")))
+legendary_rarity_image = tk.PhotoImage(file=(my_path("legendary_rarity.gif")))
 
 brawlerRarityCommon = tk.Button(root, image=common_rarity_image)
 brawlerRarityRare = tk.Button(root, image=rare_rarity_image)

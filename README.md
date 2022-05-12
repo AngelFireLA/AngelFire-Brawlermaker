@@ -18,22 +18,12 @@ How to Run it : "python app.py" in the same folder in command prompt
 Requirements :
 - Computer
 
-**Text Tutorial for windows :**
-- install python 3.9 (don't forget to check "Add to PATH")
-- download lastest version of Brawler Maker from releases section of github
-- extract the .zip to a folder
-- open cmd
-- type pip install mega.py
-- now open command prompt in folder of the tool
-- type python mega.py
-
-**Text Tutorial for linux  (not ready yet) :**
-- download python 3.9 (in installation menu check the box "add to Path" or there will be an error)
-- download lastest version of Brawler Maker from releases section of github
-- extract the .zip to a folder
-- launch once "Launch this if it is the first time ever you launch brawler maker"
-- if no errors, delete "Launch this if it is the first time ever you launch brawler maker", but if python or pip isn't recognised, look on google "how to add Python to PATH"
-- then just use "Launch Brawler maker" to launch Brawler Maker
+**Text Installation Tutorial for windows :**
+- be sure that java is installed and added on path
+- download zip from lastest release
+-  extract it to a folder
+- launch the .exe
+- - enjoy
 
 **Text Tutorial for android :**
 - soon

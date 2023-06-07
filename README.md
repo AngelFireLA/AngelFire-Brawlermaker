@@ -8,17 +8,12 @@ https://www.youtube.com/channel/UCqe_saetEaDRMExYE-y-7Gw
 
 Duscord Link : https://discord.gg/B3bKcEvWEA
 
-Video Tutorial Link : https://youtu.be/axwXPbOmEAI (tutorial stars at 3:29)
-(old video tutorials : - https://www.mediafire.com/file/jhn46xs828w00nn/moddingtutorial.mp4/file
-                       - https://www.mediafire.com/file/ea94ry27vj3x185/brawlstarsmoddingtutorial2.mov/file
+# Video Tutorial Link : https://www.youtube.com/watch?v=UQwDvU1-u-M
 
 Warning : Don't use clone feature, download Brawler Maker from releases only if you can
 
-How to Run it : "python app.py" in the same folder in command prompt
-(if it doesn't work try to put *pythonfolderpath*\python.exe main.py)
-
 Requirements :
-- Computer
+- Windows Computer with Java installed
 
 **Text Installation Tutorial for windows :**
 - be sure that java is installed and added on path

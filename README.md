@@ -8,7 +8,9 @@ https://www.youtube.com/channel/UCqe_saetEaDRMExYE-y-7Gw
 
 Duscord Link : https://discord.gg/B3bKcEvWEA
 
-# Video Tutorial Link : https://www.youtube.com/watch?v=UQwDvU1-u-M
+How to launch Brawler Maker video tutorial : https://www.youtube.com/watch?v=UQwDvU1-u-M
+
+Presentation Video and usage Tutorial (launching part is outdated) : https://www.youtube.com/watch?v=axwXPbOmEAI
 
 Warning : Don't use clone feature, download Brawler Maker from releases only if you can
 

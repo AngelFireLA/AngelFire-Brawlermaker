@@ -4,11 +4,14 @@ import random
 import shutil
 import tkinter
 import tkinter as tk
+
+import PIL.Image
 import mega
 from mega import Mega
 from tkinter import filedialog
 from zipfile import ZipFile
 import sys
+from PIL import Image, ImageTk
 
 
 mega = Mega()
@@ -24,10 +27,9 @@ csv_logic_path = ""
 csv_localization_path = ""
 current_path = os.path.abspath(os.getcwd())
 
-multibrawl_mod_link = 'https://mega.nz/file/EEtAERzI#Zn1tePmg0qzdKblTmIsvb61xcwrzB0ynkQP0SmSGaRg'
-multibrawl_mod_name = 'Multi Brawl V38 Online'
-multibrawl_classic_link = 'https://mega.nz/file/4UUDSZyQ#txA_jXb0m6zFL5_V7uxNGGG9jEgl9Ldz0rwBde9u-LQ'
-multibrawl_classic_name = 'Multi Brawl Cl V37.9'
+
+multibrawl_classic_link = 'https://mega.nz/file/cANAhBya#8wFHevhnng_a09IMWPet9BihJaJd3nLDHaEhGqgmIM4'
+multibrawl_classic_name = 'BrawlStarsOfflinev29'
 brawlername = "AngelFire"
 capbrawlername = ""
 description = "AngelFire is a brawler"
@@ -61,15 +63,39 @@ button_hidden = 0
 chosen_option = 0
 
 
+
+
 def my_path(path_name):
     """Return the appropriate path for data files based on execution context"""
-    if getattr( sys, 'frozen', False ):
+    if getattr(sys, 'frozen', False):
         # running in a bundle
         return(os.path.join(sys._MEIPASS, path_name))
     else:
         # running live
         return path_name
 
+
+background = Image.open(my_path("BG.gif"))
+main_menu = (Image.open((my_path("mainmenu.gif"))))
+rarity = (Image.open(my_path("rarity.gif")))
+program_may_stop_responding = (Image.open(my_path("stopresponding.gif")))
+your_folder_is_ready = (Image.open(my_path("yourfolderisready.gif")))
+
+rarity = rarity.resize((width, height), Image.LANCZOS)
+background = background.resize((width, height), Image.LANCZOS)
+main_menu = main_menu.resize((width, height), Image.LANCZOS)
+program_may_stop_responding = program_may_stop_responding.resize((width, height), Image.LANCZOS)
+your_folder_is_ready = your_folder_is_ready.resize((width, height), Image.LANCZOS)
+
+rarity = ImageTk.PhotoImage(rarity)
+background = ImageTk.PhotoImage(background)
+main_menu = ImageTk.PhotoImage(main_menu)
+program_may_stop_responding = ImageTk.PhotoImage(program_may_stop_responding)
+your_folder_is_ready = ImageTk.PhotoImage(your_folder_is_ready)
+
+label_main_menu = tk.Label(image=main_menu)
+label_main_menu.image = main_menu
+label_main_menu.place(x=0, y=0)
 
 def start_button():
     startButton.place_forget()
@@ -84,8 +110,6 @@ def get_csv_from_apk():
     apk_or_csv__apk.place_forget()
     normal_brawlers__apk.place(x=width/14.75, y=height/2)
     normal_brawlers__apk.config(command=lambda: result_have_normal_brawlers_only())
-    custom_brawlers__apk.place(x=width/1.93, y=height/2)
-    custom_brawlers__apk.config(command=lambda: result_have_custom_brawlers())
     ProgramStoppedResponding.place(x=width/1.93, y=height/4.5, anchor=tk.CENTER)
 
 
@@ -96,11 +120,15 @@ def result_have_normal_brawlers_only():
     global csv_localization_path
     ProgramStoppedResponding.place_forget()
     normal_brawlers__apk.place_forget()
-    custom_brawlers__apk.place_forget()
+    print(os.path.join(current_path, multibrawl_classic_name + ".zip"))
     if not os.path.exists(os.path.join(current_path, multibrawl_classic_name + ".apk")) and not os.path.exists(os.path.join(current_path, multibrawl_classic_name + ".zip")):
-        mega.download_url(multibrawl_classic_link)
-    if not os.path.exists(os.path.join(current_path, multibrawl_classic_name + ".zip")):
-        os.rename(os.path.join(current_path, multibrawl_classic_name + ".apk"), multibrawl_classic_name + ".zip")
+        print("pas encore")
+        try:
+            mega.download_url(multibrawl_classic_link, dest_filename=f"{multibrawl_classic_name}.zip", dest_path=current_path)
+        except PermissionError:
+            pass
+        print("presque yes")
+        print("yes")
     if os.path.exists(os.path.join(current_path, multibrawl_classic_name + "/assets/csv_logic")):
         shutil.rmtree(os.path.join(current_path, multibrawl_classic_name))
     with ZipFile(multibrawl_classic_name + ".zip", 'r') as zip:
@@ -110,29 +138,7 @@ def result_have_normal_brawlers_only():
         set_brawler_texts_csv_1()
 
 
-def result_have_custom_brawlers():
-    global chosen_option
-    chosen_option = 2
-    global csv_logic_path
-    global csv_localization_path
-    ProgramStoppedResponding.place_forget()
-    normal_brawlers__apk.place_forget()
-    custom_brawlers__apk.place_forget()
-    if not os.path.exists(os.path.join(current_path, multibrawl_mod_name + ".apk")) and not os.path.exists(os.path.join(current_path, multibrawl_mod_name + ".zip")):
-        print(os.path.join(current_path, multibrawl_mod_name + ".apk"))
-        print(os.path.join(current_path, multibrawl_mod_name + ".zip"))
-        mega.download_url(multibrawl_mod_link)
-    if not os.path.exists(os.path.join(current_path, multibrawl_mod_name + ".zip")):
-        os.rename(os.path.join(current_path, multibrawl_mod_name + ".apk"), multibrawl_mod_name + ".zip")
-        print(os.path.join(current_path, multibrawl_mod_name + ".zip"))
-    elif os.path.exists(os.path.join(current_path, multibrawl_mod_name + "/assets/csv_logic")):
-        print(os.path.join(current_path, multibrawl_mod_name + "/assets/csv_logic"))
-        shutil.rmtree(os.path.join(current_path, multibrawl_mod_name))
-    with ZipFile(multibrawl_mod_name + ".zip", 'r') as zip:
-        zip.extractall(os.path.join(current_path, multibrawl_mod_name))
-        csv_logic_path = multibrawl_mod_name + "/assets/csv_logic"
-        csv_localization_path = multibrawl_mod_name + "/assets/localization"
-        set_brawler_texts_csv_1()
+
 
 
 def get_csv_manually():
@@ -703,36 +709,24 @@ def set_brawler_skill_csv_super_2():
              'sc/ui.sc', 'rapid_fire_button', 'rico_def_atk', '', '', '', '', '', '', '', '', '', '', '', ''])
     if chosen_option == 1:
         ProgramFinished.place(x=width/3.2, y=height/2.16)
-    elif chosen_option == 2:
-        if os.path.exists(os.path.join(current_path, multibrawl_mod_name + " - Brawler Maker")):
-            shutil.rmtree(os.path.join(current_path, multibrawl_mod_name + " - Brawler Maker"))
-        os.rename(os.path.join(current_path, multibrawl_mod_name), multibrawl_mod_name + " - Brawler Maker")
-        if os.path.exists(os.path.join(current_path, multibrawl_mod_name + " - Brawler Maker" + ".zip")):
-            os.remove(os.path.join(current_path, multibrawl_mod_name + " - Brawler Maker" + ".zip"))
-        if os.path.exists(os.path.join(current_path, multibrawl_mod_name.replace(' ', '-') + "-BrawlerMaker" + ".apk")):
-            os.remove(os.path.join(current_path, multibrawl_mod_name.replace(' ', '-') + "-BrawlerMaker" + ".apk"))
-        shutil.make_archive(multibrawl_mod_name + " - Brawler Maker", "zip", os.path.join(current_path, multibrawl_mod_name + " - Brawler Maker"))
-        os.rename(os.path.join(current_path, multibrawl_mod_name + " - Brawler Maker" + ".zip"), multibrawl_mod_name.replace(' ', '-') + "-BrawlerMaker" + ".apk")
-        os.system('java -jar ' + my_path("uber-apk-signer.jar") + ' -a ' + current_path + "/" + multibrawl_mod_name.replace(' ', '-') + '-BrawlerMaker' + '.apk' + ' --debug')
-        ProgramFinished.place(x=width/3.2, y=height/2.16)
     elif chosen_option == 3:
         if os.path.exists(os.path.join(current_path, multibrawl_classic_name + " - Brawler Maker")):
             shutil.rmtree(os.path.join(current_path, multibrawl_classic_name + " - Brawler Maker"))
-        os.rename(os.path.join(current_path, multibrawl_classic_name), multibrawl_classic_name + " - Brawler Maker")
+        os.rename(multibrawl_classic_name, multibrawl_classic_name + " - Brawler Maker")
         if os.path.exists(os.path.join(current_path, multibrawl_classic_name + " - Brawler Maker" + ".zip")):
             os.remove(os.path.join(current_path, multibrawl_classic_name + " - Brawler Maker" + ".zip"))
         if os.path.exists(os.path.join(current_path, multibrawl_classic_name.replace(' ', '-') + "-BrawlerMaker" + ".apk")):
             os.remove(os.path.join(current_path, multibrawl_classic_name.replace(' ', '-') + "-BrawlerMaker" + ".apk"))
         shutil.make_archive(multibrawl_classic_name + " - Brawler Maker", "zip", os.path.join(current_path, multibrawl_classic_name + " - Brawler Maker"))
         os.rename(os.path.join(current_path, multibrawl_classic_name + " - Brawler Maker" + ".zip"), multibrawl_classic_name.replace(' ', '-') + "-BrawlerMaker" + ".apk")
-        os.system('java -jar ' + my_path("uber-apk-signer.jar") + ' -a ' + current_path + "/" + multibrawl_classic_name.replace(' ', '-') + '-BrawlerMaker' + '.apk' + " --debug")
+        os.system('java -jar ' + my_path("uber-apk-signer.jar") + ' -a "' + current_path + "/" + multibrawl_classic_name + '-BrawlerMaker' + '.apk"')
         ProgramFinished.place(x=width/3.2, y=height/2.16)
 
 
 canvas = tk.Canvas(root, height=height, width=width)
 canvas.pack()
 
-rebrawlModsWarning = tk.Label(root, text="Apks Provided by MultiBrawl ! Works only for v29 servers !",
+rebrawlModsWarning = tk.Label(root, text="Apk Provided made by S.B ! Works only for v29 servers !",
                               font=("Times", 20, "bold"), fg="red")
 rebrawlModsWarning.pack
 rebrawlModsWarning.place(x=0, y=0)
@@ -749,7 +743,6 @@ apk_or_csv__apk = tk.Button(root, text="Get Csv Automatically", font=("Times", 4
 apk_or_csv__csv = tk.Button(root, text="Choose Csv Manually", font=("Times", 40, "bold"), fg="black")
 
 normal_brawlers__apk = tk.Button(root, text="Result includes only normal brawlers ?", font=("Times", 30, "bold"), fg="black")
-custom_brawlers__apk = tk.Button(root, text="Result includes other modded brawlers ?", font=("Times", 30, "bold"), fg="black")
 
 openFolder = tk.Button(root, text="Open CSV Logic Folder", font=("Times", 40, "bold"), fg="black", command=csv_logic_path_selector)
 openLocalization = tk.Button(root, text="Open Localization Folder", font=("Times", 40, "bold"), fg="black",
@@ -773,6 +766,7 @@ super_rare_rarity_image = tk.PhotoImage(file=(my_path("super_rare_rarity.gif")))
 epic_rarity_image = tk.PhotoImage(file=(my_path("epic_rarity.gif")))
 mythic_rarity_image = tk.PhotoImage(file=(my_path("mythic_rarity.gif")))
 legendary_rarity_image = tk.PhotoImage(file=(my_path("legendary_rarity.gif")))
+
 
 brawlerRarityCommon = tk.Button(root, image=common_rarity_image)
 brawlerRarityRare = tk.Button(root, image=rare_rarity_image)

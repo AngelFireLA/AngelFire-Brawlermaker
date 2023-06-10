@@ -97,6 +97,51 @@ label_main_menu = tk.Label(image=main_menu)
 label_main_menu.image = main_menu
 label_main_menu.place(x=0, y=0)
 
+projectiles_dict = {
+    "shelly": "ShotgunGirl",
+    "colt": "Gunslinger",
+    "bull": "BullDude",
+    "brock": "RocketGirl",
+    "rico": "TrickshotDude",
+    "spike": "CactusDude",
+    "barley": "Barkeep",
+    "jessie": "Mechanic1",
+    "nita": "Shaman",
+    "dynamike": "TntDude",
+    "el_primo": "Luchador",
+    "mortis": "Undertaker",
+    "crow": "Crow",
+    "poco": "DeadMariachi",
+    "bo": "BowDude",
+    "piper": "Sniper",
+    "pam": "MinigunDude",
+    "tara": "BlackHole",
+    "darryl": "BarrelBot",
+    "penny": "ArtilleryDude",
+    "frank": "HammerDude",
+    "gene": "HookDude",
+    "tick": "ClusterBombDude",
+    "leon": "Ninja",
+    "rosa": "Rosa",
+    "carl": "Whirlwind",
+    "bibi": "Baseball",
+    "eight_bit": "Arcade",
+    "sandy": "Sandstorm",
+    "bea": "BeeSniper",
+    "emz": "Mummy",
+    "mister_p": "SpawnerDude",
+    "max": "Speedy",
+    "jacky": "Driller",
+    "gale": "Blower",
+    "nani": "Controller",
+    "sprout": "Wally",
+    "surge": "PowerLeveler",
+    "colette": "Percenter"
+}
+
+brawler_names_list = ['shelly', 'colt', 'bull', 'brock', 'rico', 'spike', 'barley', 'jessie', 'nita', 'dynamike', 'el_primo', 'mortis', 'crow', 'poco', 'bo', 'piper', 'pam', 'tara', 'darryl', 'penny', 'frank', 'gene', 'tick', 'leon', 'rosa', 'carl', 'bibi', 'eight_bit', 'sandy', 'bea', 'emz', 'mister_p', 'max', 'jacky', 'gale', 'nani', 'sprout', 'surge', 'colette']
+
+
 def start_button():
     startButton.place_forget()
     apk_or_csv__csv.place(x=width/3, y=height/2, anchor=tk.CENTER)
@@ -122,13 +167,11 @@ def result_have_normal_brawlers_only():
     normal_brawlers__apk.place_forget()
     print(os.path.join(current_path, multibrawl_classic_name + ".zip"))
     if not os.path.exists(os.path.join(current_path, multibrawl_classic_name + ".apk")) and not os.path.exists(os.path.join(current_path, multibrawl_classic_name + ".zip")):
-        print("pas encore")
         try:
             mega.download_url(multibrawl_classic_link, dest_filename=f"{multibrawl_classic_name}.zip", dest_path=current_path)
         except PermissionError:
             pass
-        print("presque yes")
-        print("yes")
+
     if os.path.exists(os.path.join(current_path, multibrawl_classic_name + "/assets/csv_logic")):
         shutil.rmtree(os.path.join(current_path, multibrawl_classic_name))
     with ZipFile(multibrawl_classic_name + ".zip", 'r') as zip:
@@ -343,11 +386,33 @@ def set_brawler_characters_csv_2():
     global icon
     global scale
     speed = text_entry1.get()
+    try:
+        int(speed)
+    except ValueError:
+        speed = str(720)
+    if int(speed) > 10000:
+        speed = str(10000)
     hp = text_entry2.get()
+    try:
+        int(hp)
+    except ValueError:
+        hp = str(4000)
+    if int(hp) > 30000:
+        hp = str(30000)
+    if int(hp) < 1:
+        hp = str(1)
     scale = text_entry3.get()
+    try:
+        int(scale)
+    except ValueError:
+        scale = str(116)
+    if int(scale) > 580:
+        scale = str(580)
     icon = text_entry4.get()
-    ultichargemul = random.randint(100, 135)
-    ultichargeultimul = random.randint(100, 150)
+    if icon.lower() not in brawler_names_list or icon not in brawler_names_list:
+        icon = "shelly"
+    ultichargemul = random.randint(90, 135)
+    ultichargeultimul = random.randint(90, 150)
     capbrawlername = brawlername.upper()
     filename = os.path.join(os.path.join(current_path, csv_logic_path), 'characters.csv')
     with open(filename, 'a', newline="") as file:
@@ -454,94 +519,54 @@ def set_brawler_skill_csv_attack_2():
     global projectile
     global projectiles
     projectile = text_entry2.get()
-    if projectile == "shelly":
-        projectiles = "ShotgunGirl"
-    elif projectile == "colt":
-        projectiles = "Gunslinger"
-    elif projectile == "bull":
-        projectiles = "BullDude"
-    elif projectile == "brock":
-        projectiles = "RocketGirl"
-    elif projectile == "rico":
-        projectiles = "TrickshotDude"
-    elif projectile == "spike":
-        projectiles = "CactusDude"
-    elif projectile == "barley":
-        projectiles = "Barkeep"
-    elif projectile == "jessie":
-        projectiles = "Mechanic1"
-    elif projectile == "nita":
-        projectiles = "Shaman"
-    elif projectile == "dynamike":
-        projectiles = "TntDude"
-    elif projectile == "el_primo":
-        projectiles = "Luchador"
-    elif projectile == "mortis":
-        projectiles = "Undertaker"
-    elif projectile == "crow":
-        projectiles = "Crow"
-    elif projectile == "poco":
-        projectiles = "DeadMariachi"
-    elif projectile == "bo":
-        projectiles = "BowDude"
-    elif projectile == "piper":
-        projectiles = "Sniper"
-    elif projectile == "pam":
-        projectiles = "MinigunDude"
-    elif projectile == "tara":
-        projectiles = "BlackHole"
-    elif projectile == "darryl":
-        projectiles = "BarrelBot"
-    elif projectile == "penny":
-        projectiles = "ArtilleryDude"
-    elif projectile == "frank":
-        projectiles = "HammerDude"
-    elif projectile == "gene":
-        projectiles = "HookDude"
-    elif projectile == "tick":
-        projectiles = "ClusterBombDude"
-    elif projectile == "leon":
-        projectiles = "Ninja"
-    elif projectile == "rosa":
-        projectiles = "Rosa"
-    elif projectile == "carl":
-        projectiles = "Whirlwind"
-    elif projectile == "bibi":
-        projectiles = "Baseball"
-    elif projectile == "eight_bit":
-        projectiles = "Arcade"
-    elif projectile == "sandy":
-        projectiles = "Sandstorm"
-    elif projectile == "bea":
-        projectiles = "BeeSniper"
-    elif projectile == "emz":
-        projectiles = "Mummy"
-    elif projectile == "mister_p":
-        projectiles = "SpawnerDude"
-    elif projectile == "max":
-        projectiles = "Speedy"
-    elif projectile == "jacky":
-        projectiles = "Driller"
-    elif projectile == "gale":
-        projectiles = "Blower"
-    elif projectile == "nani":
-        projectiles = "Controller"
-    elif projectile == "sprout":
-        projectiles = "Wally"
-    elif projectile == "surge":
-        projectiles = "PowerLeveler"
-    elif projectile == "colette":
-        projectiles = "Percenter"
+    try:
+        projectiles = projectiles_dict[projectile.lower()]
+    except KeyError:
+        projectiles = projectiles_dict["shelly"]
     global numberofprojectiles
     numberofprojectiles = text_entry5.get()
+    try:
+        int(numberofprojectiles)
+    except ValueError:
+        numberofprojectiles = str(1)
+    if int(numberofprojectiles) > 20:
+        numberofprojectiles = str(20)
     global damage
     damage = text_entry6.get()
+    try:
+        int(damage)
+    except ValueError:
+        damage = str(1000)
+    if int(damage) > 10000:
+        damage = str(10000)
     global reloadtime
     reloadtime = text_entry7.get()
+    try:
+        int(reloadtime)
+    except ValueError:
+        reloadtime = str(1000)
+    if int(reloadtime) > 4999:
+        reloadtime = str(4999)
+    if int(reloadtime) < 1:
+        reloadtime = str(1)
     global ammonumber
     ammonumber = text_entry8.get()
+    try:
+        int(ammonumber)
+    except ValueError:
+        ammonumber = str(3)
+    if int(ammonumber) > 4:
+        ammonumber = str(4)
+    if int(ammonumber) < 1:
+        ammonumber = str(1)
     global spread
     spread = text_entry9.get()
+    try:
+        int(spread)
+    except ValueError:
+        spread = str(1000)
+    if int(spread) > 359:
+        spread = str(4999)
     filename = os.path.join(os.path.join(current_path, csv_logic_path), 'skills.csv')
     with open(filename, 'a', newline="") as file:
         csv_writer = csv.writer(file)
@@ -610,94 +635,54 @@ def set_brawler_skill_csv_super_2():
     global projectile
     global projectiles
     projectile = text_entry2.get()
-    if projectile == "shelly":
-        projectiles = "ShotgunGirl"
-    elif projectile == "colt":
-        projectiles = "Gunslinger"
-    elif projectile == "bull":
-        projectiles = "BullDude"
-    elif projectile == "brock":
-        projectiles = "RocketGirl"
-    elif projectile == "rico":
-        projectiles = "TrickshotDude"
-    elif projectile == "spike":
-        projectiles = "CactusDude"
-    elif projectile == "barley":
-        projectiles = "Barkeep"
-    elif projectile == "jessie":
-        projectiles = "Mechanic1"
-    elif projectile == "nita":
-        projectiles = "Shaman"
-    elif projectile == "dynamike":
-        projectiles = "TntDude"
-    elif projectile == "el_primo":
-        projectiles = "Luchador"
-    elif projectile == "mortis":
-        projectiles = "Undertaker"
-    elif projectile == "crow":
-        projectiles = "Crow"
-    elif projectile == "poco":
-        projectiles = "DeadMariachi"
-    elif projectile == "bo":
-        projectiles = "BowDude"
-    elif projectile == "piper":
-        projectiles = "Sniper"
-    elif projectile == "pam":
-        projectiles = "MinigunDude"
-    elif projectile == "tara":
-        projectiles = "BlackHole"
-    elif projectile == "darryl":
-        projectiles = "BarrelBot"
-    elif projectile == "penny":
-        projectiles = "ArtilleryDude"
-    elif projectile == "frank":
-        projectiles = "HammerDude"
-    elif projectile == "gene":
-        projectiles = "HookDude"
-    elif projectile == "tick":
-        projectiles = "ClusterBombDude"
-    elif projectile == "leon":
-        projectiles = "Ninja"
-    elif projectile == "rosa":
-        projectiles = "Rosa"
-    elif projectile == "carl":
-        projectiles = "Whirlwind"
-    elif projectile == "bibi":
-        projectiles = "Baseball"
-    elif projectile == "eight_bit":
-        projectiles = "Arcade"
-    elif projectile == "sandy":
-        projectiles = "Sandstorm"
-    elif projectile == "bea":
-        projectiles = "BeeSniper"
-    elif projectile == "emz":
-        projectiles = "Mummy"
-    elif projectile == "mister_p":
-        projectiles = "SpawnerDude"
-    elif projectile == "max":
-        projectiles = "Speedy"
-    elif projectile == "jacky":
-        projectiles = "Driller"
-    elif projectile == "gale":
-        projectiles = "Blower"
-    elif projectile == "nani":
-        projectiles = "Controller"
-    elif projectile == "sprout":
-        projectiles = "Wally"
-    elif projectile == "surge":
-        projectiles = "PowerLeveler"
-    elif projectile == "colette":
-        projectiles = "Percenter"
+    try:
+        projectiles = projectiles_dict[projectile.lower()]
+    except KeyError:
+        projectiles = projectiles_dict["shelly"]
     global numberofprojectiles
     numberofprojectiles = text_entry5.get()
+    try:
+        int(numberofprojectiles)
+    except ValueError:
+        numberofprojectiles = str(1)
+    if int(numberofprojectiles) > 20:
+        numberofprojectiles = str(20)
     global damage
     damage = text_entry6.get()
+    try:
+        int(damage)
+    except ValueError:
+        damage = str(1000)
+    if int(damage) > 10000:
+        damage = str(10000)
     global reloadtime
     reloadtime = text_entry7.get()
+    try:
+        int(reloadtime)
+    except ValueError:
+        reloadtime = str(1000)
+    if int(reloadtime) > 4999:
+        reloadtime = str(4999)
+    if int(reloadtime) < 1:
+        reloadtime = str(1)
     global ammonumber
     ammonumber = text_entry8.get()
+    try:
+        int(ammonumber)
+    except ValueError:
+        ammonumber = str(3)
+    if int(ammonumber) > 4:
+        ammonumber = str(4)
+    if int(ammonumber) < 1:
+        ammonumber = str(1)
     global spread
     spread = text_entry9.get()
+    try:
+        int(spread)
+    except ValueError:
+        spread = str(1000)
+    if int(spread) > 359:
+        spread = str(4999)
     filename = os.path.join(os.path.join(current_path, csv_logic_path), 'skills.csv')
     with open(filename, 'a', newline="") as file:
         csv_writer = csv.writer(file)

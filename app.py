@@ -2,8 +2,12 @@ import csv
 import os
 import random
 import shutil
+import time
 import tkinter
 import tkinter as tk
+import platform
+import ctypes
+from ctypes import wintypes
 
 import PIL.Image
 import mega
@@ -12,16 +16,32 @@ from tkinter import filedialog
 from zipfile import ZipFile
 import sys
 from PIL import Image, ImageTk
+import platform
+
+def is_windows():
+    return platform.system().lower() == 'windows'
 
 
 mega = Mega()
 
+taskbar_height = 0
+if is_windows():
+    from win32api import GetMonitorInfo, MonitorFromPoint
+
+    monitor_info = GetMonitorInfo(MonitorFromPoint((0, 0)))
+    monitor_area = monitor_info.get("Monitor")
+    work_area = monitor_info.get("Work")
+    taskbar_height = monitor_area[3] - work_area[3]
+
+
 
 root = tk.Tk()
 root.state('zoomed')
-
 width = root.winfo_screenwidth()
 height = root.winfo_screenheight()
+root.geometry(f"{root.winfo_screenwidth()}x{root.winfo_screenheight() - taskbar_height}+0+0")
+
+height-=taskbar_height
 
 csv_logic_path = ""
 csv_localization_path = ""
@@ -75,28 +95,6 @@ def my_path(path_name):
         return path_name
 
 
-background = Image.open(my_path("BG.gif"))
-main_menu = (Image.open((my_path("mainmenu.gif"))))
-rarity = (Image.open(my_path("rarity.gif")))
-program_may_stop_responding = (Image.open(my_path("stopresponding.gif")))
-your_folder_is_ready = (Image.open(my_path("yourfolderisready.gif")))
-
-rarity = rarity.resize((width, height), Image.LANCZOS)
-background = background.resize((width, height), Image.LANCZOS)
-main_menu = main_menu.resize((width, height), Image.LANCZOS)
-program_may_stop_responding = program_may_stop_responding.resize((width, height), Image.LANCZOS)
-your_folder_is_ready = your_folder_is_ready.resize((width, height), Image.LANCZOS)
-
-rarity = ImageTk.PhotoImage(rarity)
-background = ImageTk.PhotoImage(background)
-main_menu = ImageTk.PhotoImage(main_menu)
-program_may_stop_responding = ImageTk.PhotoImage(program_may_stop_responding)
-your_folder_is_ready = ImageTk.PhotoImage(your_folder_is_ready)
-
-label_main_menu = tk.Label(image=main_menu)
-label_main_menu.image = main_menu
-label_main_menu.place(x=0, y=0)
-
 projectiles_dict = {
     "shelly": "ShotgunGirl",
     "colt": "Gunslinger",
@@ -143,11 +141,13 @@ brawler_names_list = ['shelly', 'colt', 'bull', 'brock', 'rico', 'spike', 'barle
 
 
 def start_button():
+
     startButton.place_forget()
     apk_or_csv__csv.place(x=width/3, y=height/2, anchor=tk.CENTER)
     apk_or_csv__csv.config(command=lambda: get_csv_manually())
     apk_or_csv__apk.place(x=width/1.5, y=height/2, anchor=tk.CENTER)
     apk_or_csv__apk.config(command=lambda: get_csv_from_apk())
+    background_label.configure(image=background)
 
 
 def get_csv_from_apk():
@@ -165,10 +165,11 @@ def result_have_normal_brawlers_only():
     global csv_localization_path
     ProgramStoppedResponding.place_forget()
     normal_brawlers__apk.place_forget()
-    print(os.path.join(current_path, multibrawl_classic_name + ".zip"))
     if not os.path.exists(os.path.join(current_path, multibrawl_classic_name + ".apk")) and not os.path.exists(os.path.join(current_path, multibrawl_classic_name + ".zip")):
         try:
+            print("Starting to download APK")
             mega.download_url(multibrawl_classic_link, dest_filename=f"{multibrawl_classic_name}.zip", dest_path=current_path)
+            print("Finish downloading APK")
         except PermissionError:
             pass
 
@@ -314,6 +315,7 @@ def set_brawler_texts_csv_2():
         csv_writer.writerow(['TID_' + capbrawlername + '_WEAPON_DESC', attack_description])
         csv_writer.writerow(['TID_' + capbrawlername + '_ULTI', ulti_name])
         csv_writer.writerow(['TID_' + capbrawlername + '_ULTI_DESC', ulti_description])
+    background_label.configure(image=rarity)
     brawlerRarityCommon.place(x=width/6.4, y=height/7.2)
     brawlerRarityCommon.config(command=lambda: set_brawler_cards_csv("common"))
     brawlerRarityRare.place(x=width/6.4, y=height/1.96)
@@ -329,6 +331,7 @@ def set_brawler_texts_csv_2():
 
 
 def set_brawler_cards_csv(rarity):
+    background_label.configure(image=background)
     brawlerRarityRare.place_forget()
     brawlerRaritySuperRare.place_forget()
     brawlerRarityEpic.place_forget()
@@ -693,7 +696,7 @@ def set_brawler_skill_csv_super_2():
              'true', '', '', '', '', '', '', '', '', projectiles + projectiletype, '', '', '', '', '', '', '', '',
              'sc/ui.sc', 'rapid_fire_button', 'rico_def_atk', '', '', '', '', '', '', '', '', '', '', '', ''])
     if chosen_option == 1:
-        ProgramFinished.place(x=width/3.2, y=height/2.16)
+        background_label.configure(image=your_folder_is_ready)
     elif chosen_option == 3:
         if os.path.exists(os.path.join(current_path, multibrawl_classic_name + " - Brawler Maker")):
             shutil.rmtree(os.path.join(current_path, multibrawl_classic_name + " - Brawler Maker"))
@@ -705,11 +708,32 @@ def set_brawler_skill_csv_super_2():
         shutil.make_archive(multibrawl_classic_name + " - Brawler Maker", "zip", os.path.join(current_path, multibrawl_classic_name + " - Brawler Maker"))
         os.rename(os.path.join(current_path, multibrawl_classic_name + " - Brawler Maker" + ".zip"), multibrawl_classic_name.replace(' ', '-') + "-BrawlerMaker" + ".apk")
         os.system('java -jar ' + my_path("uber-apk-signer.jar") + ' -a "' + current_path + "/" + multibrawl_classic_name + '-BrawlerMaker' + '.apk"')
-        ProgramFinished.place(x=width/3.2, y=height/2.16)
+        background_label.configure(image=your_folder_is_ready)
 
 
 canvas = tk.Canvas(root, height=height, width=width)
 canvas.pack()
+
+background = Image.open(my_path("BG.gif"))
+main_menu = (Image.open((my_path("mainmenu.gif"))))
+rarity = (Image.open(my_path("rarity.gif")))
+program_may_stop_responding = (Image.open(my_path("stopresponding.gif")))
+your_folder_is_ready = (Image.open(my_path("yourfolderisready.gif")))
+
+rarity = rarity.resize((width, height), Image.LANCZOS)
+background = background.resize((width, height), Image.LANCZOS)
+main_menu = main_menu.resize((width, height), Image.LANCZOS)
+program_may_stop_responding = program_may_stop_responding.resize((width, height), Image.LANCZOS)
+your_folder_is_ready = your_folder_is_ready.resize((width, height), Image.LANCZOS)
+
+rarity = ImageTk.PhotoImage(rarity)
+background = ImageTk.PhotoImage(background)
+main_menu = ImageTk.PhotoImage(main_menu)
+program_may_stop_responding = ImageTk.PhotoImage(program_may_stop_responding)
+your_folder_is_ready = ImageTk.PhotoImage(your_folder_is_ready)
+
+background_label = tkinter.Label(root, image=main_menu)
+background_label.place(x=0, y=0, relwidth=1, relheight=1)
 
 rebrawlModsWarning = tk.Label(root, text="Apk Provided made by S.B ! Works only for v29 servers !",
                               font=("Times", 20, "bold"), fg="red")
@@ -812,5 +836,6 @@ brawlerSuperProjectileAttackOrUlti_Attack = tk.Button(root, text="Do you want hi
                                                       font=("Times", 20, "bold"))
 brawlerSuperProjectileAttackOrUlti_Super = tk.Button(root, text="Do  you want his/her super's projectile",
                                                      font=("Times", 20, "bold"))
+
 
 root.mainloop()

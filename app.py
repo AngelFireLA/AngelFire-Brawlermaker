@@ -813,7 +813,7 @@ brawlerAttackSpread = tk.Button(root,
 brawlerAttackProjectileNumber = tk.Button(root, text="How Many Projectiles do you want for your attack ?",
                                           font=("Times", 20, "bold"))
 brawlerAttackProjectile = tk.Button(root,
-                                    text="From what Brawler do you the projectile from \n(brawler name no cap)\n(exeptions : 8bit = eight_bit, primo = el_primo \nand mr.P = mister_p)",
+                                    text="From what Brawler do you want the projectile from \n(brawler name no cap)\n(exeptions : 8bit = eight_bit, primo = el_primo \nand mr.P = mister_p)",
                                     font=("Times", 20, "bold"))
 brawlerAttackProjectileAttackOrUlti_Attack = tk.Button(root, text="Do you want his/her main attack projectile)",
                                                        font=("Times", 20, "bold"))
@@ -830,7 +830,7 @@ brawlerSuperSpread = tk.Button(root,
 brawlerSuperProjectileNumber = tk.Button(root, text="How Many Projectiles do you want for your super ?",
                                          font=("Times", 20, "bold"))
 brawlerSuperProjectile = tk.Button(root,
-                                   text="From what Brawler do you the projectile from \n(brawler name no cap)\n(exeptions : 8bit = eight_bit, primo = el_primo \nand mr.P = mister_p)",
+                                   text="From what Brawler do you want the projectile from \n(brawler name no cap)\n(exeptions : 8bit = eight_bit, primo = el_primo \nand mr.P = mister_p)",
                                    font=("Times", 20, "bold"))
 brawlerSuperProjectileAttackOrUlti_Attack = tk.Button(root, text="Do you want his/her main attack projectile)",
                                                       font=("Times", 20, "bold"))

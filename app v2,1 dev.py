@@ -17,11 +17,14 @@ def is_windows():
     return platform.system().lower() == 'windows'
 
 
-class Brawler():
-    def __init__(self, brawlername="AngelFire", description="I'm the creator of brawler Maker !", rarity="rare", attack_name="attack name", attack_description="attack description", ulti_name="Ulti name",
-                 ulti_description="Ulti description", speed="720", hp="4000", icon="shelly", scale="116", range="20", reloadtime="1000", ammonumber="3",
-                 damage="1000", spread="0", numberofprojectiles="1", projectile="shelly", timebetweenattacks="100", attackduration="150",
-                 projectiletype="Weapon", chosen_projectile="ShotGunGirl"):
+class Brawler:
+    def __init__(self, brawlername="AngelFire", description="I'm the creator of brawler Maker !", rarity="rare",
+                 attack_name="attack name", attack_description="attack description", ulti_name="Ulti name",
+                 ulti_description="Ulti description", speed="720", hp="4000", icon="shelly", scale="116", range="20",
+                 reloadtime="1000", ammonumber="3",
+                 damage="1000", spread="0", numberofprojectiles="1", projectile="shelly", timebetweenattacks="100",
+                 attackduration="150",
+                 chosen_projectile="ShotGunGirl"):
         self.brawlername = brawlername
         self.capbrawlername = brawlername.upper()
         self.description = description
@@ -43,7 +46,6 @@ class Brawler():
         self.projectile = projectile
         self.timebetweenattacks = timebetweenattacks
         self.attackduration = attackduration
-        self.projectiletype = projectiletype
         self.chosen_projectile = chosen_projectile
 
 
@@ -75,12 +77,7 @@ default_apk = 'BrawlStarsOfflinev29'
 
 brawler = Brawler()
 
-
-button_hidden = 0
-
 chosen_option = 0
-
-
 
 
 def my_path(path_name):
@@ -94,84 +91,84 @@ def my_path(path_name):
 
 
 projectiles_dict = {
-    "shelly main attack": "ShotgunGirlWeapon",
-    "colt main attack": "GunslingerWeapon",
-    "bull main attack": "BullDudeWeapon",
-    "brock main attack": "RocketGirlWeapon",
-    "rico main attack": "TrickshotDudeWeapon",
-    "spike main attack": "CactusDudeWeapon",
-    "barley main attack": "BarkeepWeapon",
-    "jessie main attack": "Mechanic1Weapon",
-    "nita main attack": "ShamanWeapon",
-    "dynamike main attack": "TntDudeWeapon",
-    "el_primo main attack": "LuchadorWeapon",
-    "mortis main attack": "UndertakerWeapon",
-    "crow main attack": "CrowWeapon",
-    "poco main attack": "DeadMariachiWeapon",
-    "bo main attack": "BowDudeWeapon",
-    "piper main attack": "SniperWeapon",
-    "pam main attack": "MinigunDudeWeapon",
-    "tara main attack": "BlackHoleWeapon",
-    "darryl main attack": "BarrelBotWeapon",
-    "penny main attack": "ArtilleryDudeWeapon",
-    "frank main attack": "HammerDudeWeapon",
-    "gene main attack": "HookDudeWeapon",
-    "tick main attack": "ClusterBombDudeWeapon",
-    "leon main attack": "NinjaWeapon",
-    "rosa main attack": "RosaWeapon",
-    "carl main attack": "WhirlwindWeapon",
-    "bibi main attack": "BaseballWeapon",
-    "eight_bit main attack": "ArcadeWeapon",
-    "sandy main attack": "SandstormWeapon",
-    "bea main attack": "BeeSniperWeapon",
-    "emz main attack": "MummyWeapon",
-    "mister_p main attack": "SpawnerDudeWeapon",
-    "max main attack": "SpeedyWeapon",
-    "jacky main attack": "DrillerWeapon",
-    "gale main attack": "BlowerWeapon",
-    "nani main attack": "ControllerWeapon",
-    "sprout main attack": "WallyWeapon",
-    "surge main attack": "PowerLevelerWeapon",
-    "colette main attack": "PercenterWeapon",
-    "shelly super": "ShotgunGirlUlti",
-    "colt super": "GunslingerUlti",
-    "bull super": "BullDudeUlti",
-    "brock super": "RocketGirlUlti",
-    "rico super": "TrickshotDudeUlti",
-    "spike super": "CactusDudeUlti",
-    "barley super": "BarkeepUlti",
-    "jessie super": "Mechanic1Ulti",
-    "nita super": "ShamanUlti",
-    "dynamike super": "TntDudeUlti",
-    "el_primo super": "LuchadorUlti",
-    "mortis super": "UndertakerUlti",
-    "crow super": "CrowUlti",
-    "poco super": "DeadMariachiUlti",
-    "bo super": "BowDudeUlti",
-    "piper super": "SniperUlti",
-    "pam super": "MinigunDudeUlti",
-    "tara super": "BlackHoleUlti",
-    "darryl super": "BarrelBotUlti",
-    "penny super": "ArtilleryDudeUlti",
-    "frank super": "HammerDudeUlti",
-    "gene super": "HookDudeUlti",
-    "tick super": "ClusterBombDudeUlti",
-    "leon super": "NinjaUlti",
-    "rosa super": "RosaUlti",
-    "carl super": "WhirlwindUlti",
-    "bibi super": "BaseballUlti",
-    "eight_bit super": "ArcadeUlti",
-    "sandy super": "SandstormUlti",
-    "bea super": "BeeSniperUlti",
-    "emz super": "MummyUlti",
-    "mister_p super": "SpawnerDudeUlti",
-    "max super": "SpeedyUlti",
-    "jacky super": "DrillerUlti",
-    "gale super": "BlowerUlti",
-    "nani super": "ControllerUlti",
-    "sprout super": "WallyUlti",
-    "surge super": "PowerLevelerUlti",
-    "colette super": "PercenterUlti",
+    "shelly main attack": "ShotgunGirlProjectile",
+    "colt main attack": "GunslingerProjectile",
+    "bull main attack": "BullDudeProjectile",
+    "brock main attack": "RocketGirlProjectile",
+    "rico main attack": "TrickshotDudeProjectile",
+    "spike main attack": "CactusDudeProjectile",
+    "barley main attack": "BarkeepProjectile",
+    "jessie main attack": "Mechanic1Projectile",
+    "nita main attack": "ShamanProjectile",
+    "dynamike main attack": "TntDudeProjectile",
+    "el_primo main attack": "LuchadorProjectile",
+    "mortis main attack": "UndertakerProjectile",
+    "crow main attack": "CrowProjectile",
+    "poco main attack": "DeadMariachiProjectile",
+    "bo main attack": "BowDudeProjectile",
+    "piper main attack": "SniperProjectile",
+    "pam main attack": "MinigunDudeProjectile",
+    "tara main attack": "BlackHoleProjectile",
+    "darryl main attack": "BarrelBotProjectile",
+    "penny main attack": "ArtilleryDudeProjectile",
+    "frank main attack": "HammerDudeProjectile",
+    "gene main attack": "HookDudeProjectile",
+    "tick main attack": "ClusterBombDudeProjectile",
+    "leon main attack": "NinjaProjectile",
+    "rosa main attack": "RosaProjectile",
+    "carl main attack": "WhirlwindProjectile",
+    "bibi main attack": "BaseballProjectile",
+    "eight_bit main attack": "ArcadeProjectile",
+    "sandy main attack": "SandstormProjectile",
+    "bea main attack": "BeeSniperProjectile",
+    "emz main attack": "MummyProjectile",
+    "mister_p main attack": "SpawnerDudeProjectile",
+    "max main attack": "SpeedyProjectile",
+    "jacky main attack": "DrillerProjectile",
+    "gale main attack": "BlowerProjectile",
+    "nani main attack": "ControllerProjectile",
+    "sprout main attack": "WallyProjectile",
+    "surge main attack": "PowerLevelerProjectile",
+    "colette main attack": "PercenterProjectile",
+    "shelly super": "ShotgunGirlUltiProjectile",
+    "colt super": "GunslingerUltiProjectile",
+    "bull super": "BullDudeUltiProjectile",
+    "brock super": "RocketGirlUltiProjectile",
+    "rico super": "TrickshotDudeUltiProjectile",
+    "spike super": "CactusDudeUltiProjectile",
+    "barley super": "BarkeepUltiProjectile",
+    "jessie super": "Mechanic1UltiProjectile",
+    "nita super": "ShamanUltiProjectile",
+    "dynamike super": "TntDudeUltiProjectile",
+    "el_primo super": "LuchadorUltiProjectile",
+    "mortis super": "UndertakerUltiProjectile",
+    "crow super": "CrowUltiProjectile",
+    "poco super": "DeadMariachiUltiProjectile",
+    "bo super": "BowDudeUltiProjectile",
+    "piper super": "SniperUltiProjectile",
+    "pam super": "MinigunDudeUltiProjectile",
+    "tara super": "BlackHoleUltiProjectile",
+    "darryl super": "BarrelBotUltiProjectile",
+    "penny super": "ArtilleryDudeUltiProjectile",
+    "frank super": "HammerDudeUltiProjectile",
+    "gene super": "HookDudeUltiProjectile",
+    "tick super": "ClusterBombDudeUltiProjectile",
+    "leon super": "NinjaUltiProjectile",
+    "rosa super": "RosaUltiProjectile",
+    "carl super": "WhirlwindUltiProjectile",
+    "bibi super": "BaseballUltiProjectile",
+    "eight_bit super": "ArcadeUltiProjectile",
+    "sandy super": "SandstormUltiProjectile",
+    "bea super": "BeeSniperUltiProjectile",
+    "emz super": "MummyUltiProjectile",
+    "mister_p super": "SpawnerDudeUltiProjectile",
+    "max super": "SpeedyUltiProjectile",
+    "jacky super": "DrillerUltiProjectile",
+    "gale super": "BlowerUltiProjectile",
+    "nani super": "ControllerUltiProjectile",
+    "sprout super": "WallyUltiProjectile",
+    "surge super": "PowerLevelerUltiProjectile",
+    "colette super": "PercenterUltiProjectile",
 }
 
 brawler_names_list = ['shelly', 'colt', 'bull', 'brock', 'rico', 'spike', 'barley', 'jessie', 'nita', 'dynamike',
@@ -204,23 +201,23 @@ def result_have_normal_brawlers_only():
     global csv_localization_path
     ProgramStoppedResponding.place_forget()
     normal_brawlers__apk.place_forget()
-    # if not os.path.exists(os.path.join(current_path, default_apk + ".apk")) and not os.path.exists(
-    #         os.path.join(current_path, default_apk + ".zip")):
-    #     try:
-    #         print("Starting to download APK")
-    #         mega.download_url(default_apk_link, dest_filename=f"{default_apk}.zip",
-    #                           dest_path=current_path)
-    #         print("Finish downloading APK")
-    #     except PermissionError:
-    #         pass
-    #
-    # if os.path.exists(os.path.join(current_path, default_apk + "/assets/csv_logic")):
-    #     shutil.rmtree(os.path.join(current_path, default_apk))
-    # with ZipFile(default_apk + ".zip", 'r') as zipp:
-    #     zipp.extractall(os.path.join(current_path, default_apk))
-    #     csv_logic_path = default_apk + "/assets/csv_logic"
-    #     csv_localization_path = default_apk + "/assets/localization"
-    #     set_brawler_texts_csv_1()
+    if not os.path.exists(os.path.join(current_path, default_apk + ".apk")) and not os.path.exists(
+            os.path.join(current_path, default_apk + ".zip")):
+        try:
+            print("Starting to download APK")
+            mega.download_url(default_apk_link, dest_filename=f"{default_apk}.zip",
+                              dest_path=current_path)
+            print("Finish downloading APK")
+        except PermissionError:
+            pass
+
+    if os.path.exists(os.path.join(current_path, default_apk + "/assets/csv_logic")):
+        shutil.rmtree(os.path.join(current_path, default_apk))
+    with ZipFile(default_apk + ".zip", 'r') as zipp:
+        zipp.extractall(os.path.join(current_path, default_apk))
+        csv_logic_path = default_apk + "/assets/csv_logic"
+        csv_localization_path = default_apk + "/assets/localization"
+        set_brawler_texts_csv_1()
 
     csv_logic_path = default_apk + "/assets/csv_logic"
     csv_localization_path = default_apk + "/assets/localization"
@@ -265,40 +262,6 @@ def csv_localization_pack_selector():
         set_brawler_texts_csv_1()
 
 
-def hide_button_1(x):
-    x.place_forget()
-    global button_hidden
-    button_hidden = button_hidden + 1
-    print(button_hidden)
-    if button_hidden == 10:
-        text_entry1.place_forget()
-        text_entry2.place_forget()
-        text_entry3.place_forget()
-        text_entry4.place_forget()
-        set_brawler_characters_csv_2()
-    if button_hidden == 18:
-        text_entry1.place_forget()
-        text_entry2.place_forget()
-        text_entry3.place_forget()
-        text_entry4.place_forget()
-        text_entry5.place_forget()
-        text_entry6.place_forget()
-        text_entry7.place_forget()
-        text_entry8.place_forget()
-        text_entry9.place_forget()
-        set_brawler_skill_csv_attack_2()
-    if button_hidden == 24:
-        text_entry1.place_forget()
-        text_entry2.place_forget()
-        text_entry3.place_forget()
-        text_entry4.place_forget()
-        text_entry5.place_forget()
-        text_entry6.place_forget()
-        text_entry7.place_forget()
-        text_entry8.place_forget()
-        text_entry9.place_forget()
-        set_brawler_skill_csv_super_2()
-
 def hide_and_clear_texts():
     text_entry1.place_forget()
     text_entry2.place_forget()
@@ -323,6 +286,7 @@ def hide_and_clear_texts():
     combo.current(0)
     icon_combo.place_forget()
     icon_combo.current(0)
+
 
 def set_brawler_texts_csv_1():
     text_entry1.place(x=width / 19.2, y=height / 5.16)
@@ -408,19 +372,22 @@ def set_brawler_cards_csv(rarity):
             ['', '', '', '', '', '', '', '', '', '', '', '', '', '',
              '', '', '', '', '', '', '', ''])
         csv_writer.writerow(
-            [brawler.brawlername + '_unlock', 'sc/ui.sc', '', brawler.brawlername, '', '', '0', '', 'unlock', '', '', '', '', rarity,
+            [brawler.brawlername + '_unlock', 'sc/ui.sc', '', brawler.brawlername, '', '', '0', '', 'unlock', '', '',
+             '', '', rarity,
              '', '', '', '', '', '', brawlernumber, ''])
         csv_writer.writerow(
-            [brawler.brawlername + '_hp', 'sc/ui.sc', 'health_icon', brawler.brawlername, '', '', '1', '', 'hp', '', '', '', '',
+            [brawler.brawlername + '_hp', 'sc/ui.sc', 'health_icon', brawler.brawlername, '', '', '1', '', 'hp', '', '',
+             '', '',
              'common', 'TID_ARMOR', 'TID_ARMOR', '', '', 'genicon_health', '', '', ''])
-        csv_writer.writerow([brawler.brawlername + '_abi', 'sc/ui.sc', 'attack_icon', brawler.brawlername, '', '', '2', '', 'skill',
-                             brawler.brawlername + 'Weapon', '', '', '', 'common', 'TID_' + brawler.capbrawlername + '_WEAPON',
-                             'TID_STAT_DAMAGE', '', '', 'genicon_damage', '', '', ''])
-        csv_writer.writerow([brawler.brawlername + '_ulti', 'sc/ui.sc', 'ulti_icon', brawler.brawlername, '', '', '3', '', 'skill',
-                             brawler.brawlername + 'Ulti', '', '', '', 'common', 'TID_' + brawler.capbrawlername + '_ULTI',
-                             'TID_STAT_DAMAGE', '', '', 'genicon_damage', '', '', ''])
+        csv_writer.writerow(
+            [brawler.brawlername + '_abi', 'sc/ui.sc', 'attack_icon', brawler.brawlername, '', '', '2', '', 'skill',
+             brawler.brawlername + 'Weapon', '', '', '', 'common', 'TID_' + brawler.capbrawlername + '_WEAPON',
+             'TID_STAT_DAMAGE', '', '', 'genicon_damage', '', '', ''])
+        csv_writer.writerow(
+            [brawler.brawlername + '_ulti', 'sc/ui.sc', 'ulti_icon', brawler.brawlername, '', '', '3', '', 'skill',
+             brawler.brawlername + 'Ulti', '', '', '', 'common', 'TID_' + brawler.capbrawlername + '_ULTI',
+             'TID_STAT_DAMAGE', '', '', 'genicon_damage', '', '', ''])
     set_brawler_characters_csv_1()
-
 
 
 def set_brawler_characters_csv_1():
@@ -440,7 +407,6 @@ def set_brawler_characters_csv_1():
     confirmCharacterButton.config(command=lambda: set_brawler_characters_csv_2())
 
 
-
 def set_brawler_characters_csv_2():
     speed = text_entry1.get()
     try:
@@ -449,6 +415,7 @@ def set_brawler_characters_csv_2():
         speed = str(720)
     if int(speed) > 10000:
         speed = str(10000)
+
     hp = text_entry2.get()
     try:
         int(hp)
@@ -458,6 +425,7 @@ def set_brawler_characters_csv_2():
         hp = str(30000)
     if int(hp) < 1:
         hp = str(1)
+
     scale = text_entry3.get()
     try:
         int(scale)
@@ -465,6 +433,7 @@ def set_brawler_characters_csv_2():
         scale = str(116)
     if int(scale) > 580:
         scale = str(580)
+
     icon = icon_combo.get()
     if icon.lower() not in brawler_names_list:
         icon = "shelly"
@@ -475,8 +444,10 @@ def set_brawler_characters_csv_2():
         csv_writer = csv.writer(file)
         csv_writer.writerow([''])
         csv_writer.writerow(
-            [brawler.brawlername, '', '', 'bull', brawler.brawlername + 'Weapon', brawler.brawlername + 'Ulti', '', speed, hp, '', '', '', '',
-             '', '', '', '12', '', ultichargemul, ultichargeultimul, "Hero", '', brawler.brawlername + 'Default', '', '', '',
+            [brawler.brawlername, '', '', 'bull', brawler.brawlername + 'Weapon', brawler.brawlername + 'Ulti', '',
+             speed, hp, '', '', '', '',
+             '', '', '', '12', '', ultichargemul, ultichargeultimul, "Hero", '', brawler.brawlername + 'Default', '',
+             '', '',
              '', '', '', 'takedamage_gen', 'death_shotgun_girl', 'Gen_move_fx', 'reload_shotgun_girl',
              'No_ammo_shotgungirl', 'Dry_fire_shotgungirl', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '',
              '', '', '30', '', '80', '80', '', '', '35', scale, '210', '284', '90', '175', '260', '', '', '', '-25',
@@ -492,7 +463,8 @@ def generate_brawler_skin_files():
         csv_writer = csv.writer(file)
         csv_writer.writerow([''])
         csv_writer.writerow(
-            [brawler.brawlername + 'Default', brawler.brawlername + 'Default', '', '', '', '', '', '', '', '', '', '', '', '', '',
+            [brawler.brawlername + 'Default', brawler.brawlername + 'Default', '', '', '', '', '', '', '', '', '', '',
+             '', '', '',
              'shelly_v2_01.pvr', 'shelly_v2_01.pvr', 'shelly_v2_01.pvr', 'shelly_v2_01.pvr'])
     filename = os.path.join(os.path.join(current_path, csv_logic_path), 'skin_confs.csv')
     with open(filename, 'a', newline="") as file:
@@ -516,230 +488,171 @@ def generate_brawler_skin_files():
 
 def set_brawler_skill_csv_attack_1():
     hide_and_clear_texts()
-    MainAttackNextButton.place_forget()
     confirmCharacterButton.place_forget()
     brawlerSpeedButton.place_forget()
     brawlerHealthButton.place_forget()
     brawlerScaleButton.place_forget()
     brawlerIconButton.place_forget()
 
-    text_entry1.place(x=width / 19.2, y=height / 6)
+    text_entry1.place(x=width / 19.2, y=height / 3.8)
     combo.place(x=width / 1.92, y=height / 4.32)
-    text_entry5.place(x=width / 19.2, y=height / 1.95)
+    text_entry5.place(x=width / 19.2, y=height / 1.7)
     text_entry6.place(x=width / 1.92, y=height / 1.37)
     text_entry7.place(x=width / 1.92, y=height / 1.85)
-    text_entry8.place(x=width / 19.2, y=height / 1.37)
-    text_entry9.place(x=width / 19.2, y=height / 2.60)
+    text_entry8.place(x=width / 19.2, y=height / 1.3)
+    text_entry9.place(x=width / 19.2, y=height / 2.25)
 
-    brawlerAttackRange.place(x=width / 19.2, y=height / 10.8)
+    brawlerAttackRange.place(x=width / 19.2, y=height / 5.4)
     brawlerAttackProjectile.place(x=width / 1.92, y=height / 5.4)
-    brawlerAttackProjectileNumber.place(x=width / 19.2, y=height / 2.16)
+    brawlerAttackProjectileNumber.place(x=width / 19.2, y=height / 1.85)
     brawlerAttackDamage.place(x=width / 1.92, y=height / 1.54)
     brawlerAttackReloadTime.place(x=width / 1.92, y=height / 2.16)
-    brawlerAttackAmmoNumber.place(x=width / 19.2, y=height / 1.54)
-    brawlerAttackSpread.place(x=width / 19.2, y=height / 3.6)
-
-
-def show_attack_or_ulti_buttons():
-    brawlerAttackProjectile.place_forget()
-    text_entry2.place_forget()
-    brawlerAttackProjectileAttackOrUlti_Attack.place(x=width / 1.92, y=height / 4)
-    brawlerAttackProjectileAttackOrUlti_Attack.config(command=lambda: set_attack_projectile_ulti_or_attack(1))
-    brawlerAttackProjectileAttackOrUlti_Super.place(x=width / 1.92, y=height / 3.08)
-    brawlerAttackProjectileAttackOrUlti_Super.config(command=lambda: set_attack_projectile_ulti_or_attack(2))
-
-
-def set_attack_projectile_ulti_or_attack(number):
-    global projectiletype
-    if number == 1:
-        projectiletype = "Projectile"
-        hide_button_1(brawlerAttackProjectileAttackOrUlti_Attack)
-        hide_button_1(brawlerAttackProjectileAttackOrUlti_Super)
-    elif number == 2:
-        projectiletype = "UltiProjectile"
-        hide_button_1(brawlerAttackProjectileAttackOrUlti_Attack)
-        hide_button_1(brawlerAttackProjectileAttackOrUlti_Super)
+    brawlerAttackAmmoNumber.place(x=width / 19.2, y=height / 1.45)
+    brawlerAttackSpread.place(x=width / 19.2, y=height / 3)
+    MainAttackLabel.place(x=width / 2, y=height / 10, anchor=tk.CENTER)
+    NextButton.place(x=width / 2.25, y=height / 1.24, anchor=tk.CENTER)
+    NextButton.config(command=lambda: set_brawler_skill_csv_attack_2())
 
 
 def set_brawler_skill_csv_attack_2():
-    global range
-    range = text_entry1.get()
-    global projectile
-    global chosen_projectile
-    projectile = text_entry2.get()
+    brawler.range = text_entry1.get()
     try:
-        chosen_projectile = projectiles_dict[projectile.lower()]
+        brawler.chosen_projectile = projectiles_dict[combo.get()]
     except KeyError:
-        chosen_projectile = projectiles_dict["shelly main attack"]
-    global numberofprojectiles
-    numberofprojectiles = text_entry5.get()
+        brawler.chosen_projectile = projectiles_dict["shelly main attack"]
+    brawler.numberofprojectiles = text_entry5.get()
     try:
-        int(numberofprojectiles)
+        int(brawler.numberofprojectiles)
     except ValueError:
-        numberofprojectiles = str(1)
-    if int(numberofprojectiles) > 20:
-        numberofprojectiles = str(20)
-    global damage
-    damage = text_entry6.get()
+        brawler.numberofprojectiles = str(1)
+    if int(brawler.numberofprojectiles) > 20:
+        brawler.numberofprojectiles = str(20)
+    brawler.damage = text_entry6.get()
     try:
-        int(damage)
+        int(brawler.damage)
     except ValueError:
-        damage = str(1000)
-    if int(damage) > 10000:
-        damage = str(10000)
-    global reloadtime
-    reloadtime = text_entry7.get()
+        brawler.damage = str(1000)
+    if int(brawler.damage) > 10000:
+        brawler.damage = str(10000)
+    brawler.reloadtime = text_entry7.get()
     try:
-        int(reloadtime)
+        int(brawler.reloadtime)
     except ValueError:
-        reloadtime = str(1000)
-    if int(reloadtime) > 4999:
-        reloadtime = str(4999)
-    if int(reloadtime) < 1:
-        reloadtime = str(1)
-    global ammonumber
-    ammonumber = text_entry8.get()
+        brawler.reloadtime = str(1000)
+    if int(brawler.reloadtime) > 4999:
+        brawler.reloadtime = str(4999)
+    if int(brawler.reloadtime) < 1:
+        brawler.reloadtime = str(1)
+    brawler.ammonumber = text_entry8.get()
     try:
-        int(ammonumber)
+        int(brawler.ammonumber)
     except ValueError:
-        ammonumber = str(3)
-    if int(ammonumber) > 4:
-        ammonumber = str(4)
-    if int(ammonumber) < 1:
-        ammonumber = str(1)
-    global spread
-    spread = text_entry9.get()
+        brawler.ammonumber = str(3)
+    if int(brawler.ammonumber) > 4:
+        brawler.ammonumber = str(4)
+    if int(brawler.ammonumber) < 1:
+        brawler.ammonumber = str(1)
+    brawler.spread = text_entry9.get()
     try:
-        int(spread)
+        int(brawler.spread)
     except ValueError:
-        spread = str(1000)
-    if int(spread) > 359:
-        spread = str(4999)
+        brawler.spread = str(0)
+    if int(brawler.spread) > 359:
+        brawler.spread = str(359)
     filename = os.path.join(os.path.join(current_path, csv_logic_path), 'skills.csv')
     with open(filename, 'a', newline="") as file:
         csv_writer = csv.writer(file)
         csv_writer.writerow([''])
         csv_writer.writerow(
-            [brawler.brawlername + "Weapon", 'Attack', 'true', 'true', 'true', '', '50', brawler.attackduration, '', range, '', '',
-             '', '', reloadtime, ammonumber, damage, '', brawler.timebetweenattacks, spread, '', numberofprojectiles, '',
-             'true', '', '', '', '', '', '', '', '', chosen_projectile + projectiletype, '', '', '', '', '', '', '', '',
+            [brawler.brawlername + "Weapon", 'Attack', 'true', 'true', 'true', '', '50', brawler.attackduration, '',
+             brawler.range, '', '',
+             '', '', brawler.reloadtime, brawler.ammonumber, brawler.damage, '', brawler.timebetweenattacks,
+             brawler.spread, '', brawler.numberofprojectiles, '',
+             'true', '', '', '', '', '', '', '', '', brawler.chosen_projectile, '', '', '', '', '', '', '', '',
              'sc/ui.sc', 'rapid_fire_button', 'rico_def_atk', '', '', '', '', '', '', '', '', '', '', '', ''])
 
-    SuperNextButton.place(x=500, y=350)
-    SuperNextButton.config(command=lambda: set_brawler_skill_csv_super_1())
+    set_brawler_skill_csv_super_1()
 
 
 def set_brawler_skill_csv_super_1():
-    text_entry1.delete(0, tkinter.END)
-    text_entry2.delete(0, tkinter.END)
-    text_entry3.delete(0, tkinter.END)
-    text_entry4.delete(0, tkinter.END)
-    text_entry5.delete(0, tkinter.END)
-    text_entry6.delete(0, tkinter.END)
-    text_entry7.delete(0, tkinter.END)
-    text_entry8.delete(0, tkinter.END)
-    SuperNextButton.place_forget()
-    brawlerSuperRange.place(x=width / 19.2, y=height / 7.2)
-    brawlerSuperRange.config(command=lambda: hide_button_1(brawlerSuperRange))
-    text_entry1.place(x=width / 19.2, y=height / 10.8)
-    brawlerSuperProjectile.place(x=width / 1.92, y=height / 3.08)
-    brawlerSuperProjectile.config(command=lambda: show_attack_or_ulti_buttons_super())
-    text_entry2.place(x=width / 1.92, y=height / 3.6)
-    brawlerSuperProjectileNumber.place(x=100, y=height / 1.96)
-    brawlerSuperProjectileNumber.config(command=lambda: hide_button_1(brawlerSuperProjectileNumber))
-    text_entry5.place(x=width / 19.2, y=height / 2.16)
-    brawlerSuperDamage.place(x=width / 19.2, y=height / 1.44)
-    brawlerSuperDamage.config(command=lambda: hide_button_1(brawlerSuperDamage))
-    text_entry6.place(x=width / 19.2, y=height / 1.54)
-    brawlerSuperSpread.place(x=width / 19.2, y=height / 3.08)
-    brawlerSuperSpread.config(command=lambda: hide_button_1(brawlerSuperSpread))
-    text_entry9.place(x=width / 19.2, y=height / 3.6)
+    hide_and_clear_texts()
+    MainAttackLabel.place_forget()
+    NextButton.place_forget()
+    brawlerAttackRange.place_forget()
+    brawlerAttackAmmoNumber.place_forget()
+    brawlerAttackDamage.place_forget()
+    brawlerAttackProjectile.place_forget()
+    brawlerAttackProjectileNumber.place_forget()
+    brawlerAttackReloadTime.place_forget()
+    brawlerAttackSpread.place_forget()
 
+    text_entry1.place(x=width / 19.2, y=height / 3.8)
+    combo.place(x=width / 1.92, y=height / 4.32)
+    text_entry5.place(x=width / 19.2, y=height / 1.7)
+    text_entry6.place(x=width / 1.92, y=height / 1.37)
+    text_entry9.place(x=width / 19.2, y=height / 2.25)
 
-def show_attack_or_ulti_buttons_super():
-    brawlerSuperProjectile.place_forget()
-    text_entry2.place_forget()
-    brawlerSuperProjectileAttackOrUlti_Attack.place(x=width / 1.92, y=height / 4.32)
-    brawlerSuperProjectileAttackOrUlti_Attack.config(command=lambda: set_attack_projectile_ulti_or_attack_super(1))
-    brawlerSuperProjectileAttackOrUlti_Super.place(x=width / 1.92, y=height / 3.08)
-    brawlerSuperProjectileAttackOrUlti_Super.config(command=lambda: set_attack_projectile_ulti_or_attack_super(2))
-
-
-def set_attack_projectile_ulti_or_attack_super(number):
-    global projectiletype
-    if number == 1:
-        projectiletype = "Projectile"
-        hide_button_1(brawlerSuperProjectileAttackOrUlti_Attack)
-        hide_button_1(brawlerSuperProjectileAttackOrUlti_Super)
-    elif number == 2:
-        projectiletype = "UltiProjectile"
-        hide_button_1(brawlerSuperProjectileAttackOrUlti_Attack)
-        hide_button_1(brawlerSuperProjectileAttackOrUlti_Super)
+    brawlerSuperRange.place(x=width / 19.2, y=height / 5.4)
+    brawlerSuperProjectile.place(x=width / 1.92, y=height / 5.4)
+    brawlerSuperProjectileNumber.place(x=width / 19.2, y=height / 1.85)
+    brawlerSuperDamage.place(x=width / 1.92, y=height / 1.54)
+    brawlerSuperSpread.place(x=width / 19.2, y=height / 3)
+    SuperLabel.place(x=width / 2, y=height / 10, anchor=tk.CENTER)
+    NextButton.place(x=width / 2.25, y=height / 1.24, anchor=tk.CENTER)
+    NextButton.config(command=lambda: set_brawler_skill_csv_super_2())
 
 
 def set_brawler_skill_csv_super_2():
-    global range
-    range = text_entry1.get()
-    global projectile
-    global chosen_projectile
-    projectile = text_entry2.get()
+    brawler.range = text_entry1.get()
+
     try:
-        chosen_projectile = projectiles_dict[projectile.lower()]
+        brawler.chosen_projectile = projectiles_dict[combo.get()]
     except KeyError:
-        chosen_projectile = projectiles_dict["shelly main attack"]
-    global numberofprojectiles
-    numberofprojectiles = text_entry5.get()
+        brawler.chosen_projectile = projectiles_dict["shelly main attack"]
+
+    brawler.numberofprojectiles = text_entry5.get()
     try:
-        int(numberofprojectiles)
+        int(brawler.numberofprojectiles)
     except ValueError:
-        numberofprojectiles = str(1)
-    if int(numberofprojectiles) > 20:
-        numberofprojectiles = str(20)
-    global damage
-    damage = text_entry6.get()
+        brawler.numberofprojectiles = str(1)
+    if int(brawler.numberofprojectiles) > 20:
+        brawler.numberofprojectiles = str(20)
+
+    brawler.damage = text_entry6.get()
     try:
-        int(damage)
+        int(brawler.damage)
     except ValueError:
-        damage = str(1000)
-    if int(damage) > 10000:
-        damage = str(10000)
-    global reloadtime
-    reloadtime = text_entry7.get()
+        brawler.damage = str(1000)
+    if int(brawler.damage) > 10000:
+        brawler.damage = str(10000)
+
+    brawler.spread = text_entry9.get()
     try:
-        int(reloadtime)
+        int(brawler.spread)
     except ValueError:
-        reloadtime = str(1000)
-    if int(reloadtime) > 4999:
-        reloadtime = str(4999)
-    if int(reloadtime) < 1:
-        reloadtime = str(1)
-    global ammonumber
-    ammonumber = text_entry8.get()
-    try:
-        int(ammonumber)
-    except ValueError:
-        ammonumber = str(3)
-    if int(ammonumber) > 4:
-        ammonumber = str(4)
-    if int(ammonumber) < 1:
-        ammonumber = str(1)
-    global spread
-    spread = text_entry9.get()
-    try:
-        int(spread)
-    except ValueError:
-        spread = str(1000)
-    if int(spread) > 359:
-        spread = str(4999)
+        brawler.spread = str(1000)
+    if int(brawler.spread) > 359:
+        brawler.spread = str(4999)
     filename = os.path.join(os.path.join(current_path, csv_logic_path), 'skills.csv')
     with open(filename, 'a', newline="") as file:
         csv_writer = csv.writer(file)
         csv_writer.writerow([''])
         csv_writer.writerow(
-            [brawler.brawlername + "Ulti", 'Attack', 'true', 'true', 'true', '', '50', brawler.attackduration, '', range, '', '',
-             '', '', reloadtime, ammonumber, damage, '', brawler.timebetweenattacks, spread, '', numberofprojectiles, '',
-             'true', '', '', '', '', '', '', '', '', chosen_projectile + projectiletype, '', '', '', '', '', '', '', '',
+            [brawler.brawlername + "Ulti", 'Attack', 'true', 'true', 'true', '', '50', brawler.attackduration, '',
+             brawler.range, '', '',
+             '', '', '', '', brawler.damage, '', brawler.timebetweenattacks, brawler.spread, '',
+             brawler.numberofprojectiles, '',
+             'true', '', '', '', '', '', '', '', '', brawler.chosen_projectile, '', '', '', '', '', '', '', '',
              'sc/ui.sc', 'rapid_fire_button', 'rico_def_atk', '', '', '', '', '', '', '', '', '', '', '', ''])
+    hide_and_clear_texts()
+    brawlerSuperRange.place_forget()
+    brawlerSuperProjectile.place_forget()
+    brawlerSuperProjectileNumber.place_forget()
+    brawlerSuperDamage.place_forget()
+    brawlerSuperSpread.place_forget()
+    SuperLabel.place_forget()
+    NextButton.place_forget()
+
     if chosen_option == 1:
         background_label.configure(image=your_folder_is_ready)
     elif chosen_option == 3:
@@ -795,7 +708,9 @@ startButton.pack()
 startButton.place(x=width / 2, y=height / 2, anchor=tk.CENTER)
 startButton.config(command=lambda: start_button())
 
-ProgramStoppedResponding = tk.Label(root, text="Program may stop responding here and at the end of the script. Duration depends on your wifi and your computer.", font=("Times", 25, "bold"), fg="black")
+ProgramStoppedResponding = tk.Label(root,
+                                    text="Program may stop responding here and at the end of the script. Duration depends on your wifi and your computer.",
+                                    font=("Times", 25, "bold"), fg="black")
 
 apk_or_csv__apk = tk.Button(root, text="Setup Automatically", font=("Times", 40, "bold"), fg="black")
 apk_or_csv__csv = tk.Button(root, text="Choose Folders Manually", font=("Times", 40, "bold"), fg="black")
@@ -835,69 +750,71 @@ brawlerRarityLegendary = tk.Button(root, image=legendary_rarity_image)
 
 brawlerAttackName = tk.Label(root, text="Enter the Name of the Attack of your brawler", font=("Times", 20, "bold"))
 brawlerAttackDescription = tk.Label(root, text="Enter the Description of the Attack of your brawler",
-                                     font=("Times", 20, "bold"))
+                                    font=("Times", 20, "bold"))
 brawlerUltiName = tk.Label(root, text="Enter the Name of the Super of your brawler)", font=("Times", 20, "bold"))
 brawlerUltiDescription = tk.Label(root, text="Enter the Description of the Super of your brawler",
-                                   font=("Times", 20, "bold"))
+                                  font=("Times", 20, "bold"))
 
 confirmTextsButton = tk.Button(root, text="Next", font=("Times", 30, "bold"))
 
 brawlerSpeedButton = tk.Label(root, text="Enter Brawler Speed \n(720 is default)", font=("Times", 20, "bold"))
 brawlerHealthButton = tk.Label(root, text="Enter Brawler Health", font=("Times", 20, "bold"))
 brawlerIconButton = tk.Label(root,
-                              text="From which brawler do you want the icon",
-                              font=("Times", 20, "bold"))
+                             text="From which brawler do you want the icon",
+                             font=("Times", 20, "bold"))
 brawlerScaleButton = tk.Label(root, text="Enter Brawler Scale \n(116 is default)", font=("Times", 20, "bold"))
 confirmCharacterButton = tk.Button(root, text="Next", font=("Times", 30, "bold"))
 
-MainAttackNextButton = tk.Button(root, text="Next", font=("Times", 20, "bold"))
-SuperNextButton = tk.Button(root, text="Next", font=("Times", 20, "bold"))
+NextButton = tk.Button(root, text="Next", font=("Times", 30, "bold"))
 
 MainAttackLabel = tk.Label(root, text="Brawler's Main Attack", font=("Times", 30, "bold"), fg="black")
 SuperLabel = tk.Label(root, text="Brawler's Super", font=("Times", 30, "bold"), fg="black")
 
-
-brawlerAttackRange = tk.Label(root, text="Enter Attack Range \n(bull is 16 and rico 29)", font=("Times", 20, "bold"))
+brawlerAttackRange = tk.Label(root, text="Enter Attack Range \n(see wiki for example values)",
+                              font=("Times", 20, "bold"))
 brawlerAttackReloadTime = tk.Label(root, text="Enter Reload time per ammo \n(in milliseconds so 1s=1000)",
-                                    font=("Times", 20, "bold"))
+                                   font=("Times", 20, "bold"))
 brawlerAttackAmmoNumber = tk.Label(root, text="Enter Number of Ammo \n(may crash for too big number)",
-                                    font=("Times", 20, "bold"))
+                                   font=("Times", 20, "bold"))
 brawlerAttackDamage = tk.Label(root, text="Enter Attack Damage \n(per projectile)", font=("Times", 20, "bold"))
 brawlerAttackSpread = tk.Label(root,
-                                text="Enter Attack Spread \n(how wide is an attack)\n(see wiki for example values)",
-                                font=("Times", 20, "bold"))
+                               text="Enter Attack Spread \n(how wide is an attack)\n(see wiki for example values)",
+                               font=("Times", 20, "bold"))
 brawlerAttackProjectileNumber = tk.Label(root, text="How many projectiles do you want your attack to have ?",
-                                          font=("Times", 20, "bold"))
+                                         font=("Times", 20, "bold"))
 brawlerAttackProjectile = tk.Label(root,
-                                    text="From which Brawler do you want the projectile from ",
-                                    font=("Times", 20, "bold"))
+                                   text="From which Brawler do you want the projectile from ",
+                                   font=("Times", 20, "bold"))
+
 
 def selected(event):
     print(combo.get())
+
+
 big_font = ("Times", 20)
 
 icon_combo = ttk.Combobox(root, values=brawler_names_list, font=big_font, state="readonly", width=20)
-icon_combo.current(0) # To set the default value to the first option
+icon_combo.current(0)  # To set the default value to the first option
 icon_combo.bind("<<ComboboxSelected>>", selected)
 
 combo = ttk.Combobox(root, values=sorted(list(projectiles_dict.keys())), font=big_font, state="readonly", width=20)
-combo.current(0) # To set the default value to the first option
+combo.current(0)  # To set the default value to the first option
 combo.bind("<<ComboboxSelected>>", selected)
 brawlerAttackProjectileAttackOrUlti_Attack = tk.Button(root, text="Do you want his/her main attack projectile)",
                                                        font=("Times", 20, "bold"))
 brawlerAttackProjectileAttackOrUlti_Super = tk.Button(root, text="Do  you want his/her super's projectile",
                                                       font=("Times", 20, "bold"))
 
-brawlerSuperRange = tk.Label(root, text="Enter Super Range \n(bull is 16 and rico 29)", font=("Times", 20, "bold"))
+brawlerSuperRange = tk.Label(root, text="Enter Super Range \n(see wiki for example values)", font=("Times", 20, "bold"))
 brawlerSuperDamage = tk.Label(root, text="Enter Super Damage \n(per projectile)", font=("Times", 20, "bold"))
 brawlerSuperSpread = tk.Label(root,
-                               text="Enter Super Spread \n(how wide is a super)\n(shelly is 60, bow is 30 and poco is 130)",
-                               font=("Times", 20, "bold"))
+                              text="Enter Super Spread \n(how wide is a super)\n(shelly is 60, bow is 30 and poco is 130)",
+                              font=("Times", 20, "bold"))
 brawlerSuperProjectileNumber = tk.Label(root, text="How many projectiles do you want your super to have ?",
-                                         font=("Times", 20, "bold"))
+                                        font=("Times", 20, "bold"))
 brawlerSuperProjectile = tk.Label(root,
-                                   text="From which Brawler do you want the projectile from",
-                                   font=("Times", 20, "bold"))
+                                  text="From which Brawler do you want the projectile from",
+                                  font=("Times", 20, "bold"))
 brawlerSuperProjectileAttackOrUlti_Attack = tk.Button(root, text="Do you want his/her main attack projectile)",
                                                       font=("Times", 20, "bold"))
 brawlerSuperProjectileAttackOrUlti_Super = tk.Button(root, text="Do  you want his/her super's projectile",

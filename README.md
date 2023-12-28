@@ -19,8 +19,7 @@ Requirements :
 
 **Text Installation Tutorial for windows :**
 - be sure that java is installed and added on path
-- download zip from lastest release
--  extract it to a folder
+- download exe from lastest release
 - launch the .exe
 - - enjoy
 

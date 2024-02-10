@@ -147,10 +147,7 @@ projectiles_dict = {
     "sprout super": "WallyUltiProjectile",
 }
 
-brawler_names_list = ['shelly', 'colt', 'bull', 'brock', 'rico', 'spike', 'barley', 'jessie', 'nita', 'dynamike',
-                      'el_primo', 'mortis', 'crow', 'poco', 'bo', 'piper', 'pam', 'tara', 'darryl', 'penny', 'frank',
-                      'gene', 'tick', 'leon', 'rosa', 'carl', 'bibi', 'eight_bit', 'sandy', 'bea', 'emz', 'mister_p',
-                      'max', 'jacky', 'gale', 'nani', 'sprout', 'surge', 'colette']
+brawler_names_list = {'shelly': 'shelly', 'colt': 'colt', 'bull': 'bull', 'brock': 'brock', 'rico': 'rick', 'spike': 'spike', 'barley': 'barley', 'jessie': 'jess', 'nita': 'nita', 'dynamike': 'mike', 'el_primo': 'primo', 'mortis': 'mortis', 'crow': 'crow', 'poco': 'poco', 'bo': 'bo', 'piper': 'piper', 'pam': 'mj', 'tara': 'taro', 'darryl': 'barrel_bot', 'penny': 'penny', 'frank': 'frank', 'gene': 'gene', 'tick': 'tick', 'leon': 'leon', 'rosa': 'rosa', 'carl': 'carl', 'bibi': 'bibi', 'eight_bit': '8bit', 'sandy': 'sandy', 'bea': 'bea', 'emz': 'emz', 'mister_p': 'mrp', 'max': 'max', 'jacky': 'jacky', 'gale': 'gale', 'nani': 'nani', 'sprout': 'sprout', 'surge': 'surge', 'colette': 'colette'}
 
 
 def start_button():
@@ -340,7 +337,7 @@ def set_brawler_cards_csv(rarity):
     brawlerRarityMythic.place_forget()
     brawlerRarityLegendary.place_forget()
     brawlerRarityCommon.place_forget()
-    brawlernumber = random.randint(1500, 9999)
+    brawlernumber = random.randint(1000, 1999)
     filename = os.path.join(os.path.join(current_path, csv_logic_path), 'cards.csv')
     with open(filename, 'a', newline="") as file:
         csv_writer = csv.writer(file)
@@ -411,8 +408,9 @@ def set_brawler_characters_csv_2():
         scale = str(580)
 
     icon = icon_combo.get()
-    if icon.lower() not in brawler_names_list:
+    if icon.lower() not in list(brawler_names_list.keys()):
         icon = "shelly"
+    icon = brawler_names_list[icon]
     ultichargemul = random.randint(90, 135)
     ultichargeultimul = random.randint(90, 150)
     filename = os.path.join(os.path.join(current_path, csv_logic_path), 'characters.csv')
@@ -769,7 +767,7 @@ def selected(event):
 
 big_font = ("Times", 20)
 
-icon_combo = ttk.Combobox(root, values=brawler_names_list, font=big_font, state="readonly", width=20)
+icon_combo = ttk.Combobox(root, values=list(brawler_names_list.keys()), font=big_font, state="readonly", width=20)
 icon_combo.current(0)  # To set the default value to the first option
 icon_combo.bind("<<ComboboxSelected>>", selected)
 

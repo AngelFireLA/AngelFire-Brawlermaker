@@ -8,6 +8,8 @@ import tkinter
 import tkinter as tk
 from tkinter import filedialog, ttk
 from zipfile import ZipFile
+import pandas as pd
+from pandas import DataFrame
 
 from PIL import Image, ImageTk
 from mega import Mega
@@ -48,6 +50,14 @@ class Brawler:
         self.attackduration = attackduration
         self.chosen_projectile = chosen_projectile
 
+def my_path(path_name):
+    """Return the appropriate path for data files based on execution context"""
+    if getattr(sys, 'frozen', False):
+        # running in a bundle
+        return os.path.join(sys._MEIPASS, path_name)
+    else:
+        # running live
+        return path_name
 
 mega = Mega()
 
@@ -65,7 +75,7 @@ root.state('zoomed')
 width = root.winfo_screenwidth()
 height = root.winfo_screenheight()
 root.geometry(f"{root.winfo_screenwidth()}x{root.winfo_screenheight() - taskbar_height}+0+0")
-
+root.title("AngelFire's Brawler Maker")
 height -= taskbar_height
 
 csv_logic_path = ""
@@ -79,15 +89,6 @@ brawler = Brawler()
 
 chosen_option = 0
 
-
-def my_path(path_name):
-    """Return the appropriate path for data files based on execution context"""
-    if getattr(sys, 'frozen', False):
-        # running in a bundle
-        return os.path.join(sys._MEIPASS, path_name)
-    else:
-        # running live
-        return path_name
 
 
 projectiles_dict = {
@@ -152,9 +153,9 @@ brawler_names_list = {'shelly': 'shelly', 'colt': 'colt', 'bull': 'bull', 'brock
 
 def start_button():
     startButton.place_forget()
-    apk_or_csv__csv.place(x=width / 3, y=height / 2, anchor=tk.CENTER)
+    apk_or_csv__csv.place(x=width / 1.5, y=height / 2, anchor=tk.CENTER)
     apk_or_csv__csv.config(command=lambda: get_csv_manually())
-    apk_or_csv__apk.place(x=width / 1.5, y=height / 2, anchor=tk.CENTER)
+    apk_or_csv__apk.place(x=width / 3, y=height / 2, anchor=tk.CENTER)
     apk_or_csv__apk.config(command=lambda: get_csv_from_apk())
     background_label.configure(image=background)
 
@@ -209,13 +210,15 @@ def get_csv_manually():
 def csv_logic_path_selector():
     global csv_logic_path
     csv_logic_path = filedialog.askdirectory(
-        initialdir="/", title="Select Csv Logic Folder")
+        title="Select Csv Logic Folder")
     if "csv_logic" in csv_logic_path:
-        if os.path.exists(os.path.join(current_path, "csv_logic")):
-            shutil.rmtree(os.path.join(current_path, "csv_logic"))
-            print("Deleted csv logic folder")
-        shutil.copytree(csv_logic_path, os.path.join(current_path, "csv_logic"))
-        print("copied csv logic folder")
+        if os.path.join(current_path, "csv_logic") != csv_logic_path.replace('/', "\\"):
+            print(os.path.join(current_path, "csv_logic"), csv_logic_path)
+            if os.path.exists(os.path.join(current_path, "csv_logic")):
+                shutil.rmtree(os.path.join(current_path, "csv_logic"))
+                print("Deleted csv logic folder")
+            shutil.copytree(csv_logic_path, os.path.join(current_path, "csv_logic"))
+            print("copied csv logic folder")
         openFolder.place_forget()
         openLocalization.place(x=width / 2, y=height / 2, anchor=tk.CENTER)
         openLocalization.config(command=lambda: csv_localization_pack_selector())
@@ -224,13 +227,14 @@ def csv_logic_path_selector():
 def csv_localization_pack_selector():
     global csv_localization_path
     csv_localization_path = filedialog.askdirectory(
-        initialdir="/", title="Select Localization Folder")
+        title="Select Localization Folder")
     if "localization" in csv_localization_path:
-        if os.path.exists(os.path.join(current_path, "localization")):
-            shutil.rmtree(os.path.join(current_path, "localization"))
-            print("Deleted localization folder")
-        shutil.copytree(csv_localization_path, os.path.join(current_path, "localization"))
-        print("copied localization folder")
+        if os.path.join(current_path, "localization") != csv_localization_path.replace('/', "\\"):
+            if os.path.exists(os.path.join(current_path, "localization")):
+                shutil.rmtree(os.path.join(current_path, "localization"))
+                print("Deleted localization folder")
+            shutil.copytree(csv_localization_path, os.path.join(current_path, "localization"))
+            print("copied localization folder")
         openLocalization.place_forget()
         set_brawler_texts_csv_1()
 
@@ -255,10 +259,16 @@ def hide_and_clear_texts():
     text_entry7.delete(0, tkinter.END)
     text_entry8.delete(0, tkinter.END)
     text_entry9.delete(0, tkinter.END)
-    combo.place_forget()
-    combo.current(0)
-    icon_combo.place_forget()
-    icon_combo.current(0)
+    projectiles_dropdown.place_forget()
+    projectiles_dropdown.current(0)
+    icons_dropdown.place_forget()
+    icons_dropdown.current(0)
+    model_dropdown.current(0)
+    skin_dropdown.current(0)
+    skinDropdownLabel.place_forget()
+    modelDropdownLabel.place_forget()
+    skin_dropdown.place_forget()
+    model_dropdown.place_forget()
 
 
 def set_brawler_texts_csv_1():
@@ -288,12 +298,13 @@ def set_brawler_texts_csv_2():
     brawler.ulti_name = text_entry5.get()
     brawler.ulti_description = text_entry6.get()
     brawler.capbrawlername = brawler.brawlername.upper()
-    filename = os.path.join(current_path, csv_localization_path) + '/texts.csv'
+    filename = os.path.join(current_path, csv_localization_path) + '/texts_patch.csv'
     with open(filename, 'a', newline="") as file:
         csv_writer = csv.writer(file)
         csv_writer.writerow([''])
         csv_writer.writerow(['TID_' + brawler.capbrawlername, brawler.brawlername])
         csv_writer.writerow(['TID_' + brawler.capbrawlername + '_DESC', brawler.description])
+        csv_writer.writerow(['TID_' + brawler.capbrawlername + '_SHORT_DESC', "Made ith AngelFire's Brawler Maker"])
         csv_writer.writerow(['TID_' + brawler.capbrawlername + '_WEAPON', brawler.attack_name])
         csv_writer.writerow(['TID_' + brawler.capbrawlername + '_WEAPON_DESC', brawler.attack_description])
         csv_writer.writerow(['TID_' + brawler.capbrawlername + '_ULTI', brawler.ulti_name])
@@ -342,9 +353,6 @@ def set_brawler_cards_csv(rarity):
     with open(filename, 'a', newline="") as file:
         csv_writer = csv.writer(file)
         csv_writer.writerow(
-            ['', '', '', '', '', '', '', '', '', '', '', '', '', '',
-             '', '', '', '', '', '', '', ''])
-        csv_writer.writerow(
             [brawler.brawlername + '_unlock', 'sc/ui.sc', '', brawler.brawlername, '', '', '0', '', 'unlock', '', '',
              '', '', rarity,
              '', '', '', '', '', '', brawlernumber, ''])
@@ -362,19 +370,64 @@ def set_brawler_cards_csv(rarity):
              'TID_STAT_DAMAGE', '', '', 'genicon_damage', '', '', ''])
     set_brawler_characters_csv_1()
 
+def get_skins_combo() -> dict:
+    filename = os.path.join(current_path, csv_logic_path, 'skins.csv')
+    # Use pandas to read the CSV file
+    df = pd.read_csv(filename, skiprows=lambda x: x == 1)
+
+    data_dict = {}
+
+    for index, row in df.iterrows():
+        key = row.iloc[0]
+
+        # Convert the selected columns to a comma-separated string
+        value = ', '.join(row.iloc[15:19].astype(str).apply(lambda x: x.strip()).tolist())
+
+        # Format the string as required
+        data_dict[key] = f",,,,,,,,,,,,,{value},"
+
+    return data_dict
+
+
+def prepare_skin_confs_line(chosen_skin, brawler_name) -> str:
+    filename = os.path.join(current_path, csv_logic_path, 'skin_confs.csv')
+    df = pd.read_csv(filename)
+    print(chosen_skin)
+    base_line = df[df['Name'] == chosen_skin].iloc[0]  # Replace 'FirstColumnName' with the actual column name
+    new_line: DataFrame = base_line.copy()
+    new_line['Name'] = brawler_name + "Default"  # Adjust column name as needed
+    new_line['Character'] = brawler_name  # Adjust column name as needed
+    columns_to_clear = ['MainAttackProjectile', 'SecondaryProjectile', 'UltiProjectile', 'AutoAttackProjectile',
+                        'ProjectileForShockyStarPower', 'IncendiaryStarPowerAreaEffect']
+    for col in columns_to_clear:
+        new_line[col] = ''  # Set to empty
+
+    new_line_str = new_line.fillna('').astype(str).values.tolist()  # Fill NaN with empty strings and convert to list
+    csv_line = ','.join(new_line_str)  # Join the list into a comma-separated string
+    return csv_line
 
 def set_brawler_characters_csv_1():
+    all_skin_names = list(get_skins_combo().keys())
+    skin_dropdown["values"] = ["Custom texture (select file after continuing)"]+sorted(all_skin_names)
+    skin_dropdown.current(0)
+    model_dropdown["values"] = sorted(all_skin_names)
+
     hide_and_clear_texts()
 
     text_entry1.place(x=width / 19.2, y=height / 3.5)
     text_entry2.place(x=width / 1.92, y=height / 4)
     text_entry3.place(x=width / 19.2, y=height / 1.8)
-    icon_combo.place(x=width / 19.2, y=height / 1.44)
+    icons_dropdown.place(x=width / 19.2, y=height / 1.44)
+    skin_dropdown.place(x=width / 1.92, y=height / 1.8)
+    model_dropdown.place(x=width / 1.92, y=height / 1.44)
+
 
     brawlerSpeedButton.place(x=width / 19.2, y=height / 5)
     brawlerHealthButton.place(x=width / 1.92, y=height / 5)
     brawlerScaleButton.place(x=width / 19.2, y=height / 2.16)
     brawlerIconButton.place(x=width / 19.2, y=height / 1.54)
+    skinDropdownLabel.place(x=width / 1.92, y=height / 2.06)
+    modelDropdownLabel.place(x=width / 1.92, y=height / 1.54)
 
     confirmCharacterButton.place(x=width / 2.25, y=height / 1.24, anchor=tk.CENTER)
     confirmCharacterButton.config(command=lambda: set_brawler_characters_csv_2())
@@ -407,7 +460,7 @@ def set_brawler_characters_csv_2():
     if int(scale) > 580:
         scale = str(580)
 
-    icon = icon_combo.get()
+    icon = icons_dropdown.get()
     if icon.lower() not in list(brawler_names_list.keys()):
         icon = "shelly"
     icon = brawler_names_list[icon]
@@ -428,35 +481,37 @@ def set_brawler_characters_csv_2():
              '40', '120', 'Medium', '-48', '', '450', '', '', 'TID_' + brawler.capbrawlername, '', 'sc/ui.sc',
              'hero_icon_' + icon, '0', 'human', 'footstep', '25', '250', '200', '', '', '1', '3', '2', '', '', '', '',
              '', '', '', '', '', 'ShellyTutorial', '', '', '', '', '', '3', '3', '3'])
-    generate_brawler_skin_files()
+    generate_brawler_skin_files(model_dropdown.get(), skin_dropdown.get())
 
 
-def generate_brawler_skin_files():
+def generate_brawler_skin_files(chosen_model, chosen_texture):
+    skins_combo = get_skins_combo()
     filename = os.path.join(os.path.join(current_path, csv_logic_path), 'skins.csv')
     with open(filename, 'a', newline="") as file:
         csv_writer = csv.writer(file)
         csv_writer.writerow([''])
-        csv_writer.writerow(
-            [brawler.brawlername + 'Default', brawler.brawlername + 'Default', '', '', '', '', '', '', '', '', '', '',
-             '', '', '',
-             'shelly_v2_01.pvr', 'shelly_v2_01.pvr', 'shelly_v2_01.pvr', 'shelly_v2_01.pvr'])
+        if chosen_texture == "Custom texture (select file after continuing)":
+            # Specify the file types
+            file_types = [
+                ('PNG files', '*.png'),
+                ('KTX files', '*.ktx'),
+                ('PVR files', '*.pvr'),
+            ]
+
+            # Open the file dialog and ask the user to choose a file
+            file_path = filedialog.askopenfilename(title="Select your brawler's texture file", filetypes=file_types)
+            file_name = os.path.basename(file_path)
+            file.write(brawler.brawlername + 'Default,'+brawler.brawlername + 'Default,'+f", , , , , , , , , , , , , {file_name}, {file_name},{file_name},{file_name}," +"\n")
+            sc3d_path = default_apk + "/assets/sc3d"
+            shutil.copy(file_path, sc3d_path)
+        else:
+            file.write(brawler.brawlername + 'Default,'+brawler.brawlername + 'Default,'+skins_combo[chosen_texture]+"\n")
+
     filename = os.path.join(os.path.join(current_path, csv_logic_path), 'skin_confs.csv')
     with open(filename, 'a', newline="") as file:
         csv_writer = csv.writer(file)
         csv_writer.writerow([''])
-        csv_writer.writerow(
-            [brawler.brawlername + 'Default', brawler.brawlername, 'shelly_geo.scw', '', '', 'shelly_base_cam.scw',
-             'shelly_intro_pose.scw',
-             '', 'ShellyIdle', 'ShellyWalk', 'ShellyPrimary', 'ShellySecondary', 'ShellyRecoil', '', 'ShellyRecoil', '',
-             'ShellyReload', 'ShellyPushback', 'ShellyWin', 'ShellyWinloop', 'ShellyLose', 'ShellyLoseloop',
-             'ShellyIdle',
-             'ShellyWin', 'ShellyWinloop', 'ShellyWin', 'ShellyIdle', 'ShellyIdle', 'ShellyProfile', 'ShellyIntro', '',
-             '',
-             '', '', '', 'ShellyFace', 'ShellyFace', 'ShellyHappy', 'ShellyFace', 'ShellySad', 'ShellySadLoop',
-             'ShellyFace', 'ShellyHappy', 'ShellyFace', 'ShellyHappy', 'ShellyStill', 'ShellyStill', '', '', '', 'true',
-             'true', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '',
-             '',
-             '', '', '', '', '', ', '', ', '', '', '', ''])
+        file.write(prepare_skin_confs_line(chosen_model, brawler.brawlername)+"\n")
     set_brawler_skill_csv_attack_1()
 
 
@@ -469,7 +524,7 @@ def set_brawler_skill_csv_attack_1():
     brawlerIconButton.place_forget()
 
     text_entry1.place(x=width / 19.2, y=height / 3.8)
-    combo.place(x=width / 1.92, y=height / 4.32)
+    projectiles_dropdown.place(x=width / 1.92, y=height / 4.32)
     text_entry5.place(x=width / 19.2, y=height / 1.7)
     text_entry6.place(x=width / 1.92, y=height / 1.37)
     text_entry7.place(x=width / 1.92, y=height / 1.85)
@@ -491,7 +546,7 @@ def set_brawler_skill_csv_attack_1():
 def set_brawler_skill_csv_attack_2():
     brawler.range = text_entry1.get()
     try:
-        brawler.chosen_projectile = projectiles_dict[combo.get()]
+        brawler.chosen_projectile = projectiles_dict[projectiles_dropdown.get()]
     except KeyError:
         brawler.chosen_projectile = projectiles_dict["shelly main attack"]
     brawler.numberofprojectiles = text_entry5.get()
@@ -561,7 +616,7 @@ def set_brawler_skill_csv_super_1():
     brawlerAttackSpread.place_forget()
 
     text_entry1.place(x=width / 19.2, y=height / 3.8)
-    combo.place(x=width / 1.92, y=height / 4.32)
+    projectiles_dropdown.place(x=width / 1.92, y=height / 4.32)
     text_entry5.place(x=width / 19.2, y=height / 1.7)
     text_entry6.place(x=width / 1.92, y=height / 1.37)
     text_entry9.place(x=width / 19.2, y=height / 2.25)
@@ -580,7 +635,7 @@ def set_brawler_skill_csv_super_2():
     brawler.range = text_entry1.get()
 
     try:
-        brawler.chosen_projectile = projectiles_dict[combo.get()]
+        brawler.chosen_projectile = projectiles_dict[projectiles_dropdown.get()]
     except KeyError:
         brawler.chosen_projectile = projectiles_dict["shelly main attack"]
 
@@ -644,6 +699,10 @@ def set_brawler_skill_csv_super_2():
                   default_apk.replace(' ', '-') + "-BrawlerMaker" + ".apk")
         os.system('java -jar ' + my_path(
             "uber-apk-signer.jar") + ' -a "' + current_path + "/" + default_apk + '-BrawlerMaker' + '.apk"')
+        #delete BrawlStarsOfflinev29-BrawlerMaker.apk
+        os.remove(os.path.join(current_path, "BrawlStarsOfflinev29-BrawlerMaker.apk"))
+        #rename BrawlStarsOfflinev29-BrawlerMaker-aligned-debugSigned.apk to BrawlStarsOfflinev29-BrawlerMaker.apk
+        os.rename(os.path.join(current_path, "BrawlStarsOfflinev29-BrawlerMaker-aligned-debugSigned.apk"), os.path.join(current_path, "BrawlStarsOfflinev29-AngelFire's BrawlerMaker.apk"))
         background_label.configure(image=your_folder_is_ready)
 
 
@@ -683,11 +742,11 @@ startButton.place(x=width / 2, y=height / 2, anchor=tk.CENTER)
 startButton.config(command=lambda: start_button())
 
 ProgramStoppedResponding = tk.Label(root,
-                                    text="Program may stop responding here and at the end of the script. Duration depends on your wifi and your computer.",
+                                    text="This will download the needed basic files but should be faster the next time you use Brawler Maker. \nThe program may stop responding now and at the end of the script.\n The time needed depends on your wifi's speed and your computer's power.\n (May take up to a few minutes, and longer the first time).",
                                     font=("Times", 25, "bold"), fg="black")
 
-apk_or_csv__apk = tk.Button(root, text="Setup Automatically", font=("Times", 40, "bold"), fg="black")
-apk_or_csv__csv = tk.Button(root, text="Choose Folders Manually", font=("Times", 40, "bold"), fg="black")
+apk_or_csv__apk = tk.Button(root, text="Automatic Export to APK", font=("Times", 36, "bold"), fg="black")
+apk_or_csv__csv = tk.Button(root, text="Manual Setup \n(advanced users only)", font=("Times", 36, "bold"), fg="black")
 
 normal_brawlers__apk = tk.Button(root, text="Start", font=("Times", 30, "bold"), fg="black")
 
@@ -762,18 +821,33 @@ brawlerAttackProjectile = tk.Label(root,
 
 
 def selected(event):
-    print(combo.get())
+    pass
 
 
 big_font = ("Times", 20)
 
-icon_combo = ttk.Combobox(root, values=list(brawler_names_list.keys()), font=big_font, state="readonly", width=20)
-icon_combo.current(0)  # To set the default value to the first option
-icon_combo.bind("<<ComboboxSelected>>", selected)
+icons_dropdown = ttk.Combobox(root, values=list(brawler_names_list.keys()), font=big_font, state="readonly", width=20)
+icons_dropdown.current(0)  # To set the default value to the first option
+icons_dropdown.bind("<<ComboboxSelected>>", selected)
 
-combo = ttk.Combobox(root, values=sorted(list(projectiles_dict.keys())), font=big_font, state="readonly", width=20)
-combo.current(0)  # To set the default value to the first option
-combo.bind("<<ComboboxSelected>>", selected)
+projectiles_dropdown = ttk.Combobox(root, values=sorted(list(projectiles_dict.keys())), font=big_font, state="readonly", width=20)
+projectiles_dropdown.current(0)  # To set the default value to the first option
+projectiles_dropdown.bind("<<ComboboxSelected>>", selected)
+
+skin_dropdown = ttk.Combobox(root, values=['Why are you seeing this ?'], font=big_font, state="readonly", width=20)
+skin_dropdown.current(0)  # To set the default value to the first option
+skin_dropdown.bind("<<ComboboxSelected>>", selected)
+skinDropdownLabel = tk.Label(root,
+                             text="Which brawler's skin do you want to use for the TEXTURE",
+                             font=("Times", 20, "bold"))
+
+
+model_dropdown = ttk.Combobox(root, values=['Why are you seeing this ?'], font=big_font, state="readonly", width=20)
+model_dropdown.current(0)  # To set the default value to the first option
+model_dropdown.bind("<<ComboboxSelected>>", selected)
+modelDropdownLabel = tk.Label(root,
+                             text="Which brawler's skin do you want to use for the MODEL",
+                             font=("Times", 20, "bold"))
 brawlerAttackProjectileAttackOrUlti_Attack = tk.Button(root, text="Do you want his/her main attack projectile)",
                                                        font=("Times", 20, "bold"))
 brawlerAttackProjectileAttackOrUlti_Super = tk.Button(root, text="Do  you want his/her super's projectile",

@@ -31,7 +31,7 @@ exe = EXE(
     a.zipfiles,
     a.datas,
     [],
-    name='Brawler Maker',
+    name="AngelFire's Brawler Maker",
     debug=False,
     bootloader_ignore_signals=False,
     strip=False,

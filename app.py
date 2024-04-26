@@ -301,10 +301,9 @@ def set_brawler_texts_csv_2():
     filename = os.path.join(current_path, csv_localization_path) + '/texts_patch.csv'
     with open(filename, 'a', newline="") as file:
         csv_writer = csv.writer(file)
-        csv_writer.writerow([''])
         csv_writer.writerow(['TID_' + brawler.capbrawlername, brawler.brawlername])
         csv_writer.writerow(['TID_' + brawler.capbrawlername + '_DESC', brawler.description])
-        csv_writer.writerow(['TID_' + brawler.capbrawlername + '_SHORT_DESC', "Made ith AngelFire's Brawler Maker"])
+        csv_writer.writerow(['TID_' + brawler.capbrawlername + '_SHORT_DESC', "Made with AngelFire's Brawler Maker"])
         csv_writer.writerow(['TID_' + brawler.capbrawlername + '_WEAPON', brawler.attack_name])
         csv_writer.writerow(['TID_' + brawler.capbrawlername + '_WEAPON_DESC', brawler.attack_description])
         csv_writer.writerow(['TID_' + brawler.capbrawlername + '_ULTI', brawler.ulti_name])
@@ -380,11 +379,14 @@ def get_skins_combo() -> dict:
     for index, row in df.iterrows():
         key = row.iloc[0]
 
-        # Convert the selected columns to a comma-separated string
-        value = ', '.join(row.iloc[15:19].astype(str).apply(lambda x: x.strip()).tolist())
+        values = [x.strip() for x in row.iloc[15:19].astype(str).tolist()]
+        for value in values:
+            while value[0] == ' ':
+                value = value[1:]
+            while value[-1] == ' ':
+                value = value[:-1]
 
-        # Format the string as required
-        data_dict[key] = f",,,,,,,,,,,,,{value},"
+        data_dict[key] = f',,,,,,,,,,,,,"{values[0].strip()}","{values[1].strip()}","{values[2].strip()}","{values[3].strip()}",'
 
     return data_dict
 
@@ -505,7 +507,7 @@ def generate_brawler_skin_files(chosen_model, chosen_texture):
             sc3d_path = default_apk + "/assets/sc3d"
             shutil.copy(file_path, sc3d_path)
         else:
-            file.write(brawler.brawlername + 'Default,'+brawler.brawlername + 'Default,'+skins_combo[chosen_texture]+"\n")
+            file.write(brawler.brawlername + 'Default,'+brawler.brawlername + 'Default,'+skins_combo[chosen_texture])
 
     filename = os.path.join(os.path.join(current_path, csv_logic_path), 'skin_confs.csv')
     with open(filename, 'a', newline="") as file:

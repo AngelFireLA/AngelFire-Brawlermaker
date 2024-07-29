@@ -9,6 +9,7 @@ import tkinter as tk
 from tkinter import filedialog, ttk
 from zipfile import ZipFile
 import pandas as pd
+import requests
 from pandas import DataFrame
 
 from PIL import Image, ImageTk
@@ -49,6 +50,32 @@ class Brawler:
         self.timebetweenattacks = timebetweenattacks
         self.attackduration = attackduration
         self.chosen_projectile = chosen_projectile
+
+    def __str__(self):
+        return (f"Name: {self.brawlername}\n"
+                f"Description: {self.description}\n"
+                f"Rarity: {self.rarity}\n"
+                f"Attack Name: {self.attack_name}\n"
+                f"Attack Description: {self.attack_description}\n"
+                f"Ultimate Name: {self.ulti_name}\n"
+                f"Ultimate Description: {self.ulti_description}\n"
+                f"Speed: {self.speed}\n"
+                f"HP: {self.hp}\n"
+                f"Icon: {self.icon}\n"
+                f"Scale: {self.scale}\n"
+                f"Range: {self.range}\n"
+                f"Reload Time: {self.reloadtime}\n"
+                f"Ammo Number: {self.ammonumber}\n"
+                f"Damage: {self.damage}\n"
+                f"Spread: {self.spread}\n"
+                f"Number of Projectiles: {self.numberofprojectiles}\n"
+                f"Projectile: {self.projectile}\n"
+                f"Time Between Attacks: {self.timebetweenattacks}\n"
+                f"Attack Duration: {self.attackduration}\n"
+                f"Chosen Projectile: {self.chosen_projectile}")
+
+    def __repr__(self):
+        return self.__str__()
 
 def my_path(path_name):
     """Return the appropriate path for data files based on execution context"""
@@ -298,17 +325,23 @@ def set_brawler_texts_csv_2():
     brawler.ulti_name = text_entry5.get()
     brawler.ulti_description = text_entry6.get()
     brawler.capbrawlername = brawler.brawlername.upper()
-    filename = os.path.join(current_path, csv_localization_path) + '/texts_patch.csv'
-    with open(filename, 'a', newline="") as file:
-        csv_writer = csv.writer(file)
-        csv_writer.writerow(['TID_' + brawler.capbrawlername, brawler.brawlername])
-        csv_writer.writerow(['TID_' + brawler.capbrawlername + '_DESC', brawler.description])
-        csv_writer.writerow(['TID_' + brawler.capbrawlername + '_SHORT_DESC', "Made with AngelFire's Brawler Maker"])
-        csv_writer.writerow(['TID_' + brawler.capbrawlername + '_WEAPON', brawler.attack_name])
-        csv_writer.writerow(['TID_' + brawler.capbrawlername + '_WEAPON_DESC', brawler.attack_description])
-        csv_writer.writerow(['TID_' + brawler.capbrawlername + '_ULTI', brawler.ulti_name])
-        csv_writer.writerow(['TID_' + brawler.capbrawlername + '_ULTI_DESC', brawler.ulti_description])
+    # Define the path to the localization folder
+    localization_folder_path = os.path.join(current_path, csv_localization_path)
 
+    # Loop through each file in the localization folder
+    for filename in os.listdir(localization_folder_path):
+        if filename.endswith('.csv'):
+            file_path = os.path.join(localization_folder_path, filename)
+            with open(file_path, 'a', newline="") as file:
+                csv_writer = csv.writer(file)
+                csv_writer.writerow(['TID_' + brawler.capbrawlername, brawler.brawlername])
+                csv_writer.writerow(['TID_' + brawler.capbrawlername + '_DESC', brawler.description])
+                csv_writer.writerow(
+                    ['TID_' + brawler.capbrawlername + '_SHORT_DESC', "Made with AngelFire's Brawler Maker"])
+                csv_writer.writerow(['TID_' + brawler.capbrawlername + '_WEAPON', brawler.attack_name])
+                csv_writer.writerow(['TID_' + brawler.capbrawlername + '_WEAPON_DESC', brawler.attack_description])
+                csv_writer.writerow(['TID_' + brawler.capbrawlername + '_ULTI', brawler.ulti_name])
+                csv_writer.writerow(['TID_' + brawler.capbrawlername + '_ULTI_DESC', brawler.ulti_description])
     hide_and_clear_texts()
     confirmTextsButton.place_forget()
     brawlerNameButton.place_forget()
@@ -385,8 +418,9 @@ def get_skins_combo() -> dict:
                 value = value[1:]
             while value[-1] == ' ':
                 value = value[:-1]
-
-        data_dict[key] = f',,,,,,,,,,,,,"{values[0].strip()}","{values[1].strip()}","{values[2].strip()}","{values[3].strip()}",'
+        if isinstance(key, float):
+            print("ERROR (please report this to @angelfirela) this shouldn't be a float :", key)
+        data_dict[str(key)] = f',,,,,,,,,,,,,"{values[0].strip()}","{values[1].strip()}","{values[2].strip()}","{values[3].strip()}",'
 
     return data_dict
 
@@ -687,26 +721,52 @@ def set_brawler_skill_csv_super_2():
     if chosen_option == 1:
         background_label.configure(image=your_folder_is_ready)
     elif chosen_option == 3:
-        if os.path.exists(os.path.join(current_path, default_apk + " - Brawler Maker")):
-            shutil.rmtree(os.path.join(current_path, default_apk + " - Brawler Maker"))
-        os.rename(default_apk, default_apk + " - Brawler Maker")
-        if os.path.exists(os.path.join(current_path, default_apk + " - Brawler Maker" + ".zip")):
-            os.remove(os.path.join(current_path, default_apk + " - Brawler Maker" + ".zip"))
-        if os.path.exists(
-                os.path.join(current_path, default_apk.replace(' ', '-') + "-BrawlerMaker" + ".apk")):
-            os.remove(os.path.join(current_path, default_apk.replace(' ', '-') + "-BrawlerMaker" + ".apk"))
-        shutil.make_archive(default_apk + " - Brawler Maker", "zip",
-                            os.path.join(current_path, default_apk + " - Brawler Maker"))
-        os.rename(os.path.join(current_path, default_apk + " - Brawler Maker" + ".zip"),
+        if os.path.exists(os.path.join(current_path, default_apk + "-BrawlerMaker")):
+            shutil.rmtree(os.path.join(current_path, default_apk + "-BrawlerMaker"))
+
+        os.rename(default_apk, default_apk + "-BrawlerMaker")
+
+        if os.path.exists(os.path.join(current_path, default_apk + "-BrawlerMaker" + ".zip")):
+            os.remove(os.path.join(current_path, default_apk + "-BrawlerMaker" + ".zip"))
+
+        if os.path.exists(os.path.join(current_path, default_apk + "-BrawlerMaker" + ".apk")):
+            os.remove(os.path.join(current_path, default_apk + "-BrawlerMaker" + ".apk"))
+
+        shutil.make_archive(default_apk + "-BrawlerMaker", "zip",
+                            os.path.join(current_path, default_apk + "-BrawlerMaker"))
+
+        os.rename(os.path.join(current_path, default_apk + "-BrawlerMaker" + ".zip"),
                   default_apk.replace(' ', '-') + "-BrawlerMaker" + ".apk")
+
         os.system('java -jar ' + my_path(
             "uber-apk-signer.jar") + ' -a "' + current_path + "/" + default_apk + '-BrawlerMaker' + '.apk"')
-        #delete BrawlStarsOfflinev29-BrawlerMaker.apk
-        os.remove(os.path.join(current_path, "BrawlStarsOfflinev29-BrawlerMaker.apk"))
-        #rename BrawlStarsOfflinev29-BrawlerMaker-aligned-debugSigned.apk to BrawlStarsOfflinev29-BrawlerMaker.apk
-        os.rename(os.path.join(current_path, "BrawlStarsOfflinev29-BrawlerMaker-aligned-debugSigned.apk"), os.path.join(current_path, "BrawlStarsOfflinev29-AngelFire's BrawlerMaker.apk"))
+
+        try:
+            # Attempt to rename the file
+            os.rename(
+                os.path.join(current_path, "BrawlStarsOfflinev29-BrawlerMaker-aligned-debugSigned.apk"),
+                os.path.join(current_path, "BrawlStarsOfflinev29-AngelFire's BrawlerMaker.apk")
+            )
+            # If renaming is successful, delete the old file
+            os.remove(os.path.join(current_path, "BrawlStarsOfflinev29-BrawlerMaker.apk"))
+            print("File renamed and old file deleted successfully.")
+        except Exception as e:
+            # If there is an error, print the error message and do not delete the old file
+            print(f"An error occurred: {e}")
+            os.remove(os.path.join(current_path, "BrawlStarsOfflinev29-BrawlerMaker-aligned-debugSigned.apk"))
+        send_message_to_webhook()
         background_label.configure(image=your_folder_is_ready)
 
+def send_message_to_webhook():
+    try:
+        webhook_url = 'your webhook'
+        message = {
+            "content": f"Someone used Brawler Maker \n {str(brawler)}"
+        }
+
+        response = requests.post(webhook_url, json=message)
+    except:
+        pass
 
 canvas = tk.Canvas(root, height=height, width=width)
 canvas.pack()

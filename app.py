@@ -22,7 +22,7 @@ def is_windows():
 
 
 class Brawler:
-    def __init__(self, brawlername="AngelFire", description="I'm the creator of brawler Maker !", rarity="rare",
+    def __init__(self, brawlername="AngelFire", description="I'm the creator of AngelFire's Brawler Maker !", rarity="rare",
                  attack_name="attack name", attack_description="attack description", ulti_name="Ulti name",
                  ulti_description="Ulti description", speed="720", hp="4000", icon="shelly", scale="116", range="20",
                  reloadtime="1000", ammonumber="3",
@@ -217,27 +217,27 @@ def result_is_automatic():
     if not os.path.exists(os.path.join(current_path, default_apk + ".apk")) and not os.path.exists(
             os.path.join(current_path, default_apk + ".zip")):
         try:
-            print("Starting to download APK")
+            print("Starting to download base APK")
             mega.download_url(default_apk_link, dest_filename=f"{default_apk}.zip",
                               dest_path=current_path)
-            print("Finish downloading APK")
+            print("Finished downloading base APK")
         except PermissionError:
             pass
 
     if os.path.exists(os.path.join(current_path, default_apk + "/assets/csv_logic")):
         shutil.rmtree(os.path.join(current_path, default_apk))
+        print("Found and removed existing base folder")
+    print("Starting to extract base zip file")
     with ZipFile(default_apk + ".zip", 'r') as zipp:
         zipp.extractall(os.path.join(current_path, default_apk))
-        csv_logic_path = default_apk + "/assets/csv_logic"
-        csv_localization_path = default_apk + "/assets/localization"
+        csv_logic_path = os.path.join(default_apk, "assets/csv_logic")
+        csv_localization_path = os.path.join(default_apk, "assets/localization")
+        print("Finished extracting base zip file")
         set_brawler_texts_csv_1()
-
-    csv_logic_path = default_apk + "/assets/csv_logic"
-    csv_localization_path = default_apk + "/assets/localization"
-    set_brawler_texts_csv_1()
 
 
 def create_backup(file_path, move=False):
+    print("Starting to backup", file_path)
     backup_folder = os.path.join(current_path, "backup")
     if not os.path.exists(backup_folder):
         os.makedirs(backup_folder)
@@ -256,7 +256,7 @@ def create_backup(file_path, move=False):
         shutil.move(file_path, backup_path)
     else:
         shutil.copy(file_path, backup_path)
-
+    print("Finished backing up", file_path)
 
 def result_is_automatic_with_manual_apk():
     global chosen_option
@@ -273,46 +273,47 @@ def result_is_automatic_with_manual_apk():
     file_path = filedialog.askopenfilename(filetypes=[("APK/ZIP files", "*.apk *.zip")])
 
     if not file_path:
-        print("No file selected")
+        print("No file was selected (please restart AngelFire's Brawler Maker")
         return
-    print(file_path, zip_path, apk_path)
+
     if file_path == zip_path:
+        print("Selected File already exists in folder and has the base zip name, just making a backup in case.")
         create_backup(file_path)
     elif file_path == apk_path:
+        print("Selected File already exists in folder and has the base APK name, just making a backup in case.")
         create_backup(file_path)
         if os.path.exists(zip_path):
+            print("Base zip file already exists, making a backup aswell")
             create_backup(zip_path, move=True)
         shutil.copy(file_path, zip_path)
     else:
-        print("no an exact existing path")
         if file_path.startswith(current_path):
-            print("file is inside folder")
+            print("Selected file already exists in the folder with a custom name, just making a backup in case.")
             create_backup(file_path)
         if os.path.exists(zip_path) and file_path.endswith(".zip"):
+            print("Base zip file exists and the selected file is a zip, making a backup and copying the file.")
             create_backup(zip_path, move=True)
             shutil.copy(file_path, zip_path)
         if os.path.exists(apk_path):
+            print("Base APK file already exists, making a backup.")
             create_backup(apk_path, move=True)
         if file_path.endswith(".apk"):
-            print("file is an apk")
             if os.path.exists(zip_path):
+                print("Deleting existing zip file to replace it with the selected APK.")
                 os.remove(zip_path)
+            print("Copying selected APK file to zip path.")
             shutil.copy(file_path, zip_path)
 
     if os.path.exists(os.path.join(current_path, default_apk, "assets/csv_logic")):
         shutil.rmtree(os.path.join(current_path, default_apk))
         print("removed old folder")
-
+    print("Starting to extract base zip file")
     with ZipFile(zip_path, 'r') as zipp:
         zipp.extractall(os.path.join(current_path, default_apk))
         csv_logic_path = os.path.join(default_apk, "assets/csv_logic")
         csv_localization_path = os.path.join(default_apk, "assets/localization")
+        print("Finished extracting base zip file")
         set_brawler_texts_csv_1()
-
-    csv_logic_path = os.path.join(default_apk, "assets/csv_logic")
-    csv_localization_path = os.path.join(default_apk, "assets/localization")
-    set_brawler_texts_csv_1()
-
 
 def get_csv_manually():
     global chosen_option
@@ -416,7 +417,7 @@ def set_brawler_texts_csv_2():
     brawler.capbrawlername = brawler.brawlername.upper()
     # Define the path to the localization folder
     localization_folder_path = os.path.join(current_path, csv_localization_path)
-
+    print("Starting to add texts to language files...")
     # Loop through each file in the localization folder
     for filename in os.listdir(localization_folder_path):
         if filename.endswith('.csv'):
@@ -431,6 +432,7 @@ def set_brawler_texts_csv_2():
                 csv_writer.writerow(['TID_' + brawler.capbrawlername + '_WEAPON_DESC', brawler.attack_description])
                 csv_writer.writerow(['TID_' + brawler.capbrawlername + '_ULTI', brawler.ulti_name])
                 csv_writer.writerow(['TID_' + brawler.capbrawlername + '_ULTI_DESC', brawler.ulti_description])
+    print("Done adding texts to language files")
     hide_and_clear_texts()
     confirmTextsButton.place_forget()
     brawlerNameButton.place_forget()
@@ -462,6 +464,7 @@ def set_brawler_texts_csv_2():
 
 
 def set_brawler_cards_csv(rarity):
+    print("Chosen rarity is ", rarity)
     background_label.configure(image=background)
     brawlerRarityRare.place_forget()
     brawlerRaritySuperRare.place_forget()
@@ -470,6 +473,7 @@ def set_brawler_cards_csv(rarity):
     brawlerRarityLegendary.place_forget()
     brawlerRarityCommon.place_forget()
     brawlernumber = random.randint(1000, 1999)
+    print("Starting to add content to cards.csv ...")
     filename = os.path.join(os.path.join(current_path, csv_logic_path), 'cards.csv')
     with open(filename, 'a', newline="") as file:
         csv_writer = csv.writer(file)
@@ -489,6 +493,7 @@ def set_brawler_cards_csv(rarity):
             [brawler.brawlername + '_ulti', 'sc/ui.sc', 'ulti_icon', brawler.brawlername, '', '', '3', '', 'skill',
              brawler.brawlername + 'Ulti', '', '', '', 'common', 'TID_' + brawler.capbrawlername + '_ULTI',
              'TID_STAT_DAMAGE', '', '', 'genicon_damage', '', '', ''])
+    print("Done adding content to cards.csv")
     set_brawler_characters_csv_1()
 
 
@@ -593,6 +598,7 @@ def set_brawler_characters_csv_2():
     icon = brawler_names_list[icon]
     ultichargemul = random.randint(90, 135)
     ultichargeultimul = random.randint(90, 150)
+    print("Starting to add content to characters.csv ...")
     filename = os.path.join(os.path.join(current_path, csv_logic_path), 'characters.csv')
     with open(filename, 'a', newline="") as file:
         csv_writer = csv.writer(file)
@@ -608,12 +614,14 @@ def set_brawler_characters_csv_2():
              '40', '120', 'Medium', '-48', '', '450', '', '', 'TID_' + brawler.capbrawlername, '', 'sc/ui.sc',
              'hero_icon_' + icon, '0', 'human', 'footstep', '25', '250', '200', '', '', '1', '3', '2', '', '', '', '',
              '', '', '', '', '', 'ShellyTutorial', '', '', '', '', '', '3', '3', '3'])
+    print("Done adding content to characters.csv")
     generate_brawler_skin_files(model_dropdown.get(), skin_dropdown.get())
 
 
 def generate_brawler_skin_files(chosen_model, chosen_texture):
     skins_combo = get_skins_combo()
     filename = os.path.join(os.path.join(current_path, csv_logic_path), 'skins.csv')
+    print("Starting to add content to skins.csv ...")
     with open(filename, 'a', newline="") as file:
         csv_writer = csv.writer(file)
         csv_writer.writerow([''])
@@ -635,12 +643,14 @@ def generate_brawler_skin_files(chosen_model, chosen_texture):
         else:
             file.write(
                 brawler.brawlername + 'Default,' + brawler.brawlername + 'Default,' + skins_combo[chosen_texture])
-
+    print("Done adding content to skins.csv")
+    print("Starting to add content to skin_confs.csv ...")
     filename = os.path.join(os.path.join(current_path, csv_logic_path), 'skin_confs.csv')
     with open(filename, 'a', newline="") as file:
         csv_writer = csv.writer(file)
         csv_writer.writerow([''])
         file.write(prepare_skin_confs_line(chosen_model, brawler.brawlername) + "\n")
+    print("Done adding content to skin_confs.csv")
     set_brawler_skill_csv_attack_1()
 
 
@@ -717,6 +727,7 @@ def set_brawler_skill_csv_attack_2():
         brawler.spread = str(0)
     if int(brawler.spread) > 359:
         brawler.spread = str(359)
+    print("Starting to add basic attack to skills.csv ...")
     filename = os.path.join(os.path.join(current_path, csv_logic_path), 'skills.csv')
     with open(filename, 'a', newline="") as file:
         csv_writer = csv.writer(file)
@@ -728,7 +739,7 @@ def set_brawler_skill_csv_attack_2():
              brawler.spread, '', brawler.numberofprojectiles, '',
              'true', '', '', '', '', '', '', '', '', brawler.chosen_projectile, '', '', '', '', '', '', '', '',
              'sc/ui.sc', 'rapid_fire_button', 'rico_def_atk', '', '', '', '', '', '', '', '', '', '', '', ''])
-
+    print("Done adding basic attack to skills.csv")
     set_brawler_skill_csv_super_1()
 
 
@@ -792,6 +803,7 @@ def set_brawler_skill_csv_super_2():
     if int(brawler.spread) > 359:
         brawler.spread = str(359)
     filename = os.path.join(os.path.join(current_path, csv_logic_path), 'skills.csv')
+    print("Starting to add super to skills.csv ...")
     with open(filename, 'a', newline="") as file:
         csv_writer = csv.writer(file)
         csv_writer.writerow([''])
@@ -802,6 +814,7 @@ def set_brawler_skill_csv_super_2():
              brawler.numberofprojectiles, '',
              'true', '', '', '', '', '', '', '', '', brawler.chosen_projectile, '', '', '', '', '', '', '', '',
              'sc/ui.sc', 'rapid_fire_button', 'rico_def_atk', '', '', '', '', '', '', '', '', '', '', '', ''])
+    print("Done adding super to skills.csv")
     hide_and_clear_texts()
     brawlerSuperRange.place_forget()
     brawlerSuperProjectile.place_forget()
@@ -812,10 +825,15 @@ def set_brawler_skill_csv_super_2():
     NextButton.place_forget()
 
     if chosen_option == 1:
+        print("Done making brawler in manual mode.")
         background_label.configure(image=your_folder_is_ready)
     elif chosen_option == 3:
         if os.path.exists(os.path.join(current_path, default_apk + "-BrawlerMaker")):
+            print("Removing old base folder ...")
             shutil.rmtree(os.path.join(current_path, default_apk + "-BrawlerMaker"))
+            print("Done removing old base folder.")
+
+        print("Starting to compress base folder into apk ...")
         renamed = False
         while not renamed:
             try:
@@ -835,40 +853,54 @@ def set_brawler_skill_csv_super_2():
 
         os.rename(os.path.join(current_path, default_apk + "-BrawlerMaker" + ".zip"),
                   default_apk.replace(' ', '-') + "-BrawlerMaker" + ".apk")
-
-        os.system('java -jar ' + my_path(
-            "uber-apk-signer.jar") + ' -a "' + current_path + "/" + default_apk + '-BrawlerMaker' + '.apk"')
+        print("Done compressing base folder into apk.")
+        print("Starting to sign apk ...")
+        signed = False
+        try:
+            os.system('java -jar ' + my_path("uber-apk-signer.jar") + ' -a "' + current_path + "/" + default_apk + '-BrawlerMaker' + '.apk"')
+            signed = True
+        except Exception as e:
+            print(e)
+            print("Error while signing apk, you may have to sign apk with APK editor.")
 
         try:
             target_file = os.path.join(current_path, "BrawlStarsOfflinev29-AngelFire's BrawlerMaker.apk")
-
             # Check if the target file already exists
             if os.path.exists(target_file):
+                print("Old completed APK already exists, making a backup...")
                 create_backup(target_file, move=True)  # Remove the existing file
+            print("Done making backup.")
+            print("Renaming APK into final form...")
+            if signed:
+                # Rename the file
+                os.rename(
+                    os.path.join(current_path, "BrawlStarsOfflinev29-BrawlerMaker-aligned-debugSigned.apk"),
+                    target_file
+                )
+            else:
+                os.rename(
+                    os.path.join(current_path, "BrawlStarsOfflinev29-BrawlerMaker.apk"),
+                    target_file
+                )
+            print("Done renaming APK.")
 
-            # Rename the file
-            os.rename(
-                os.path.join(current_path, "BrawlStarsOfflinev29-BrawlerMaker-aligned-debugSigned.apk"),
-                target_file
-            )
-
+            print("Deleting old APK ...")
             # If renaming is successful, delete the old file
             os.remove(os.path.join(current_path, "BrawlStarsOfflinev29-BrawlerMaker.apk"))
-
-            print("File renamed and old file deleted successfully.")
+            print("Done deleting old APK.")
         except Exception as e:
-            # If there is an error, print the error message and do not delete the old file
             print(f"An error occurred: {e}")
             print("Please use the apk ending with 'debug-aligned' instead.")
         send_message_to_webhook()
         background_label.configure(image=your_folder_is_ready)
+        print("Done making brawler in automatic mode !")
 
 
 def send_message_to_webhook():
     try:
-        webhook_url = 'your_webhook'
+        webhook_url = 'https://discord.com/api/webhooks/1267146970066059315/Nz9e2NUqTGFYJ5qJEPoPgAzao_bjwiH370AZXNEA9jDMG-J02feIoFgN3I4fqL8AVGaC'
         message = {
-            "content": f"Someone used Brawler Maker \n {str(brawler)}"
+            "content": f"Someone used AngelFire's Brawler Maker \n {str(brawler)}"
         }
 
         requests.post(webhook_url, json=message)
@@ -912,7 +944,7 @@ startButton.place(x=width / 2, y=height / 2, anchor=tk.CENTER)
 startButton.config(command=lambda: start_button())
 
 ProgramStoppedResponding = tk.Label(root,
-                                    text="This will download the needed basic files but should be faster the next time you use Brawler Maker. \nThe program may stop responding now and at the end of the script.\n The time needed depends on your wifi's speed and your computer's power.\n (May take up to a few minutes, and longer the first time).",
+                                    text="This will download the needed basic files but should be faster the next time you use AngelFire's Brawler Maker. \nThe program may stop responding now and at the end of the script.\n The time needed depends on your wifi's speed and your computer's power.\n (May take up to a few minutes, and longer the first time).",
                                     font=("Times", 25, "bold"), fg="black")
 
 apk_or_csv__apk = tk.Button(root, text="Automatic Export to APK", font=("Times", 36, "bold"), fg="black")

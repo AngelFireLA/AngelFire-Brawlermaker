@@ -4,16 +4,17 @@ import platform
 import random
 import shutil
 import sys
+import time
 import tkinter
 import tkinter as tk
 from tkinter import filedialog, ttk
 from zipfile import ZipFile
+
 import pandas as pd
 import requests
-from pandas import DataFrame
-
 from PIL import Image, ImageTk
 from mega import Mega
+from pandas import DataFrame
 
 
 def is_windows():
@@ -77,6 +78,7 @@ class Brawler:
     def __repr__(self):
         return self.__str__()
 
+
 def my_path(path_name):
     """Return the appropriate path for data files based on execution context"""
     if getattr(sys, 'frozen', False):
@@ -85,6 +87,7 @@ def my_path(path_name):
     else:
         # running live
         return path_name
+
 
 mega = Mega()
 
@@ -115,8 +118,6 @@ default_apk = 'BrawlStarsOfflinev29'
 brawler = Brawler()
 
 chosen_option = 0
-
-
 
 projectiles_dict = {
     "shelly main attack": "ShotgunGirlProjectile",
@@ -175,7 +176,14 @@ projectiles_dict = {
     "sprout super": "WallyUltiProjectile",
 }
 
-brawler_names_list = {'shelly': 'shelly', 'colt': 'colt', 'bull': 'bull', 'brock': 'brock', 'rico': 'rick', 'spike': 'spike', 'barley': 'barley', 'jessie': 'jess', 'nita': 'nita', 'dynamike': 'mike', 'el_primo': 'primo', 'mortis': 'mortis', 'crow': 'crow', 'poco': 'poco', 'bo': 'bo', 'piper': 'piper', 'pam': 'mj', 'tara': 'taro', 'darryl': 'barrel_bot', 'penny': 'penny', 'frank': 'frank', 'gene': 'gene', 'tick': 'tick', 'leon': 'leon', 'rosa': 'rosa', 'carl': 'carl', 'bibi': 'bibi', 'eight_bit': '8bit', 'sandy': 'sandy', 'bea': 'bea', 'emz': 'emz', 'mister_p': 'mrp', 'max': 'max', 'jacky': 'jacky', 'gale': 'gale', 'nani': 'nani', 'sprout': 'sprout', 'surge': 'surge', 'colette': 'colette'}
+brawler_names_list = {'shelly': 'shelly', 'colt': 'colt', 'bull': 'bull', 'brock': 'brock', 'rico': 'rick',
+                      'spike': 'spike', 'barley': 'barley', 'jessie': 'jess', 'nita': 'nita', 'dynamike': 'mike',
+                      'el_primo': 'primo', 'mortis': 'mortis', 'crow': 'crow', 'poco': 'poco', 'bo': 'bo',
+                      'piper': 'piper', 'pam': 'mj', 'tara': 'taro', 'darryl': 'barrel_bot', 'penny': 'penny',
+                      'frank': 'frank', 'gene': 'gene', 'tick': 'tick', 'leon': 'leon', 'rosa': 'rosa', 'carl': 'carl',
+                      'bibi': 'bibi', 'eight_bit': '8bit', 'sandy': 'sandy', 'bea': 'bea', 'emz': 'emz',
+                      'mister_p': 'mrp', 'max': 'max', 'jacky': 'jacky', 'gale': 'gale', 'nani': 'nani',
+                      'sprout': 'sprout', 'surge': 'surge', 'colette': 'colette'}
 
 
 def start_button():
@@ -191,17 +199,21 @@ def get_csv_from_apk():
     apk_or_csv__csv.place_forget()
     apk_or_csv__apk.place_forget()
     normal_brawlers__apk.place(x=width / 2, y=height / 2)
-    normal_brawlers__apk.config(command=lambda: result_have_normal_brawlers_only())
+    normal_brawlers__apk.config(command=lambda: result_is_automatic())
+    startButtonManual.pack()
+    startButtonManual.place(x=width / 2, y=height / 1.5, anchor=tk.CENTER)
+    startButtonManual.config(command=lambda: result_is_automatic_with_manual_apk())
     ProgramStoppedResponding.place(x=width / 1.93, y=height / 4.5, anchor=tk.CENTER)
 
 
-def result_have_normal_brawlers_only():
+def result_is_automatic():
     global chosen_option
     chosen_option = 3
     global csv_logic_path
     global csv_localization_path
     ProgramStoppedResponding.place_forget()
     normal_brawlers__apk.place_forget()
+    startButtonManual.place_forget()
     if not os.path.exists(os.path.join(current_path, default_apk + ".apk")) and not os.path.exists(
             os.path.join(current_path, default_apk + ".zip")):
         try:
@@ -222,6 +234,83 @@ def result_have_normal_brawlers_only():
 
     csv_logic_path = default_apk + "/assets/csv_logic"
     csv_localization_path = default_apk + "/assets/localization"
+    set_brawler_texts_csv_1()
+
+
+def create_backup(file_path, move=False):
+    backup_folder = os.path.join(current_path, "backup")
+    if not os.path.exists(backup_folder):
+        os.makedirs(backup_folder)
+
+    base_name = os.path.basename(file_path)
+    backup_path = os.path.join(backup_folder, base_name)
+
+    # Handle file name collision in the backup folder
+    if os.path.exists(backup_path):
+        base, ext = os.path.splitext(base_name)
+        counter = 1
+        while os.path.exists(backup_path):
+            backup_path = os.path.join(backup_folder, f"{base}_{counter}{ext}")
+            counter += 1
+    if move:
+        shutil.move(file_path, backup_path)
+    else:
+        shutil.copy(file_path, backup_path)
+
+
+def result_is_automatic_with_manual_apk():
+    global chosen_option
+    chosen_option = 3
+    global csv_logic_path
+    global csv_localization_path
+    ProgramStoppedResponding.place_forget()
+    normal_brawlers__apk.place_forget()
+    startButtonManual.place_forget()
+
+    apk_path = os.path.join(current_path, f"{default_apk}.apk").replace("\\", "/")
+    zip_path = os.path.join(current_path, f"{default_apk}.zip").replace("\\", "/")
+
+    file_path = filedialog.askopenfilename(filetypes=[("APK/ZIP files", "*.apk *.zip")])
+
+    if not file_path:
+        print("No file selected")
+        return
+    print(file_path, zip_path, apk_path)
+    if file_path == zip_path:
+        create_backup(file_path)
+    elif file_path == apk_path:
+        create_backup(file_path)
+        if os.path.exists(zip_path):
+            create_backup(zip_path, move=True)
+        shutil.copy(file_path, zip_path)
+    else:
+        print("no an exact existing path")
+        if file_path.startswith(current_path):
+            print("file is inside folder")
+            create_backup(file_path)
+        if os.path.exists(zip_path) and file_path.endswith(".zip"):
+            create_backup(zip_path, move=True)
+            shutil.copy(file_path, zip_path)
+        if os.path.exists(apk_path):
+            create_backup(apk_path, move=True)
+        if file_path.endswith(".apk"):
+            print("file is an apk")
+            if os.path.exists(zip_path):
+                os.remove(zip_path)
+            shutil.copy(file_path, zip_path)
+
+    if os.path.exists(os.path.join(current_path, default_apk, "assets/csv_logic")):
+        shutil.rmtree(os.path.join(current_path, default_apk))
+        print("removed old folder")
+
+    with ZipFile(zip_path, 'r') as zipp:
+        zipp.extractall(os.path.join(current_path, default_apk))
+        csv_logic_path = os.path.join(default_apk, "assets/csv_logic")
+        csv_localization_path = os.path.join(default_apk, "assets/localization")
+        set_brawler_texts_csv_1()
+
+    csv_logic_path = os.path.join(default_apk, "assets/csv_logic")
+    csv_localization_path = os.path.join(default_apk, "assets/localization")
     set_brawler_texts_csv_1()
 
 
@@ -402,6 +491,7 @@ def set_brawler_cards_csv(rarity):
              'TID_STAT_DAMAGE', '', '', 'genicon_damage', '', '', ''])
     set_brawler_characters_csv_1()
 
+
 def get_skins_combo() -> dict:
     filename = os.path.join(current_path, csv_logic_path, 'skins.csv')
     # Use pandas to read the CSV file
@@ -420,7 +510,8 @@ def get_skins_combo() -> dict:
                 value = value[:-1]
         if isinstance(key, float):
             print("ERROR (please report this to @angelfirela) this shouldn't be a float :", key)
-        data_dict[str(key)] = f',,,,,,,,,,,,,"{values[0].strip()}","{values[1].strip()}","{values[2].strip()}","{values[3].strip()}",'
+        data_dict[
+            str(key)] = f',,,,,,,,,,,,,"{values[0].strip()}","{values[1].strip()}","{values[2].strip()}","{values[3].strip()}",'
 
     return data_dict
 
@@ -442,9 +533,10 @@ def prepare_skin_confs_line(chosen_skin, brawler_name) -> str:
     csv_line = ','.join(new_line_str)  # Join the list into a comma-separated string
     return csv_line
 
+
 def set_brawler_characters_csv_1():
     all_skin_names = list(get_skins_combo().keys())
-    skin_dropdown["values"] = ["Custom texture (select file after continuing)"]+sorted(all_skin_names)
+    skin_dropdown["values"] = ["Custom texture (select file after continuing)"] + sorted(all_skin_names)
     skin_dropdown.current(0)
     model_dropdown["values"] = sorted(all_skin_names)
 
@@ -456,7 +548,6 @@ def set_brawler_characters_csv_1():
     icons_dropdown.place(x=width / 19.2, y=height / 1.44)
     skin_dropdown.place(x=width / 1.92, y=height / 1.8)
     model_dropdown.place(x=width / 1.92, y=height / 1.44)
-
 
     brawlerSpeedButton.place(x=width / 19.2, y=height / 5)
     brawlerHealthButton.place(x=width / 1.92, y=height / 5)
@@ -537,17 +628,19 @@ def generate_brawler_skin_files(chosen_model, chosen_texture):
             # Open the file dialog and ask the user to choose a file
             file_path = filedialog.askopenfilename(title="Select your brawler's texture file", filetypes=file_types)
             file_name = os.path.basename(file_path)
-            file.write(brawler.brawlername + 'Default,'+brawler.brawlername + 'Default,'+f", , , , , , , , , , , , , {file_name}, {file_name},{file_name},{file_name}," +"\n")
+            file.write(
+                brawler.brawlername + 'Default,' + brawler.brawlername + 'Default,' + f", , , , , , , , , , , , , {file_name}, {file_name},{file_name},{file_name}," + "\n")
             sc3d_path = default_apk + "/assets/sc3d"
             shutil.copy(file_path, sc3d_path)
         else:
-            file.write(brawler.brawlername + 'Default,'+brawler.brawlername + 'Default,'+skins_combo[chosen_texture])
+            file.write(
+                brawler.brawlername + 'Default,' + brawler.brawlername + 'Default,' + skins_combo[chosen_texture])
 
     filename = os.path.join(os.path.join(current_path, csv_logic_path), 'skin_confs.csv')
     with open(filename, 'a', newline="") as file:
         csv_writer = csv.writer(file)
         csv_writer.writerow([''])
-        file.write(prepare_skin_confs_line(chosen_model, brawler.brawlername)+"\n")
+        file.write(prepare_skin_confs_line(chosen_model, brawler.brawlername) + "\n")
     set_brawler_skill_csv_attack_1()
 
 
@@ -723,8 +816,13 @@ def set_brawler_skill_csv_super_2():
     elif chosen_option == 3:
         if os.path.exists(os.path.join(current_path, default_apk + "-BrawlerMaker")):
             shutil.rmtree(os.path.join(current_path, default_apk + "-BrawlerMaker"))
-
-        os.rename(default_apk, default_apk + "-BrawlerMaker")
+        renamed = False
+        while not renamed:
+            try:
+                os.rename(default_apk, default_apk + "-BrawlerMaker")
+                renamed = True
+            except PermissionError:
+                time.sleep(0.5)
 
         if os.path.exists(os.path.join(current_path, default_apk + "-BrawlerMaker" + ".zip")):
             os.remove(os.path.join(current_path, default_apk + "-BrawlerMaker" + ".zip"))
@@ -742,31 +840,41 @@ def set_brawler_skill_csv_super_2():
             "uber-apk-signer.jar") + ' -a "' + current_path + "/" + default_apk + '-BrawlerMaker' + '.apk"')
 
         try:
-            # Attempt to rename the file
+            target_file = os.path.join(current_path, "BrawlStarsOfflinev29-AngelFire's BrawlerMaker.apk")
+
+            # Check if the target file already exists
+            if os.path.exists(target_file):
+                create_backup(target_file, move=True)  # Remove the existing file
+
+            # Rename the file
             os.rename(
                 os.path.join(current_path, "BrawlStarsOfflinev29-BrawlerMaker-aligned-debugSigned.apk"),
-                os.path.join(current_path, "BrawlStarsOfflinev29-AngelFire's BrawlerMaker.apk")
+                target_file
             )
+
             # If renaming is successful, delete the old file
             os.remove(os.path.join(current_path, "BrawlStarsOfflinev29-BrawlerMaker.apk"))
+
             print("File renamed and old file deleted successfully.")
         except Exception as e:
             # If there is an error, print the error message and do not delete the old file
             print(f"An error occurred: {e}")
-            os.remove(os.path.join(current_path, "BrawlStarsOfflinev29-BrawlerMaker-aligned-debugSigned.apk"))
+            print("Please use the apk ending with 'debug-aligned' instead.")
         send_message_to_webhook()
         background_label.configure(image=your_folder_is_ready)
 
+
 def send_message_to_webhook():
     try:
-        webhook_url = 'your webhook'
+        webhook_url = 'your_webhook'
         message = {
             "content": f"Someone used Brawler Maker \n {str(brawler)}"
         }
 
-        response = requests.post(webhook_url, json=message)
+        requests.post(webhook_url, json=message)
     except:
         pass
+
 
 canvas = tk.Canvas(root, height=height, width=width)
 canvas.pack()
@@ -811,6 +919,8 @@ apk_or_csv__apk = tk.Button(root, text="Automatic Export to APK", font=("Times",
 apk_or_csv__csv = tk.Button(root, text="Manual Setup \n(advanced users only)", font=("Times", 36, "bold"), fg="black")
 
 normal_brawlers__apk = tk.Button(root, text="Start", font=("Times", 30, "bold"), fg="black")
+
+startButtonManual = tk.Button(root, text="Start but select base APK manually", font=("Times", 40, "bold"), fg="black")
 
 openFolder = tk.Button(root, text="Open CSV Logic Folder", font=("Times", 40, "bold"), fg="black",
                        command=csv_logic_path_selector)
@@ -892,7 +1002,8 @@ icons_dropdown = ttk.Combobox(root, values=list(brawler_names_list.keys()), font
 icons_dropdown.current(0)  # To set the default value to the first option
 icons_dropdown.bind("<<ComboboxSelected>>", selected)
 
-projectiles_dropdown = ttk.Combobox(root, values=sorted(list(projectiles_dict.keys())), font=big_font, state="readonly", width=20)
+projectiles_dropdown = ttk.Combobox(root, values=sorted(list(projectiles_dict.keys())), font=big_font, state="readonly",
+                                    width=20)
 projectiles_dropdown.current(0)  # To set the default value to the first option
 projectiles_dropdown.bind("<<ComboboxSelected>>", selected)
 
@@ -903,13 +1014,12 @@ skinDropdownLabel = tk.Label(root,
                              text="Which brawler's skin do you want to use for the TEXTURE",
                              font=("Times", 20, "bold"))
 
-
 model_dropdown = ttk.Combobox(root, values=['Why are you seeing this ?'], font=big_font, state="readonly", width=20)
 model_dropdown.current(0)  # To set the default value to the first option
 model_dropdown.bind("<<ComboboxSelected>>", selected)
 modelDropdownLabel = tk.Label(root,
-                             text="Which brawler's skin do you want to use for the MODEL",
-                             font=("Times", 20, "bold"))
+                              text="Which brawler's skin do you want to use for the MODEL",
+                              font=("Times", 20, "bold"))
 brawlerAttackProjectileAttackOrUlti_Attack = tk.Button(root, text="Do you want his/her main attack projectile)",
                                                        font=("Times", 20, "bold"))
 brawlerAttackProjectileAttackOrUlti_Super = tk.Button(root, text="Do  you want his/her super's projectile",

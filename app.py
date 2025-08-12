@@ -110,6 +110,7 @@ height -= taskbar_height
 
 csv_logic_path = ""
 csv_localization_path = ""
+sc3d_path = ""
 current_path = os.path.abspath(os.getcwd())
 
 default_apk_link = 'https://mega.nz/file/cANAhBya#8wFHevhnng_a09IMWPet9BihJaJd3nLDHaEhGqgmIM4'
@@ -353,7 +354,25 @@ def csv_localization_pack_selector():
             shutil.copytree(csv_localization_path, os.path.join(current_path, "localization"))
             print("copied localization folder")
         openLocalization.place_forget()
+        openSc3d.place(x=width / 2, y=height / 2, anchor=tk.CENTER)
+        openSc3d.config(command=lambda: sc3d_pack_selector())
+
+
+def sc3d_pack_selector():
+    global sc3d_path
+    sc3d_path = filedialog.askdirectory(
+        title="Select sc3d Folder")
+    if "sc3d" in sc3d_path:
+        if os.path.join(current_path, "sc3d") != sc3d_path.replace('/', "\\"):
+            if os.path.exists(os.path.join(current_path, "sc3d")):
+                shutil.rmtree(os.path.join(current_path, "sc3d"))
+                print("Deleted localization folder")
+            shutil.copytree(sc3d_path, os.path.join(current_path, "sc3d"))
+            print("copied sc3d folder")
+        openSc3d.place_forget()
         set_brawler_texts_csv_1()
+
+
 
 
 def hide_and_clear_texts():
@@ -602,7 +621,6 @@ def set_brawler_characters_csv_2():
     filename = os.path.join(os.path.join(current_path, csv_logic_path), 'characters.csv')
     with open(filename, 'a', newline="") as file:
         csv_writer = csv.writer(file)
-        csv_writer.writerow([''])
         csv_writer.writerow(
             [brawler.brawlername, '', '', 'bull', brawler.brawlername + 'Weapon', brawler.brawlername + 'Ulti', '',
              speed, hp, '', '', '', '',
@@ -619,6 +637,7 @@ def set_brawler_characters_csv_2():
 
 
 def generate_brawler_skin_files(chosen_model, chosen_texture):
+    global sc3d_path
     skins_combo = get_skins_combo()
     filename = os.path.join(os.path.join(current_path, csv_logic_path), 'skins.csv')
     print("Starting to add content to skins.csv ...")
@@ -638,7 +657,8 @@ def generate_brawler_skin_files(chosen_model, chosen_texture):
             file_name = os.path.basename(file_path)
             file.write(
                 brawler.brawlername + 'Default,' + brawler.brawlername + 'Default,' + f", , , , , , , , , , , , , {file_name}, {file_name},{file_name},{file_name}," + "\n")
-            sc3d_path = default_apk + "/assets/sc3d"
+            if sc3d_path == "":
+                sc3d_path = default_apk + "/assets/sc3d"
             shutil.copy(file_path, sc3d_path)
         else:
             file.write(
@@ -731,7 +751,6 @@ def set_brawler_skill_csv_attack_2():
     filename = os.path.join(os.path.join(current_path, csv_logic_path), 'skills.csv')
     with open(filename, 'a', newline="") as file:
         csv_writer = csv.writer(file)
-        csv_writer.writerow([''])
         csv_writer.writerow(
             [brawler.brawlername + "Weapon", 'Attack', 'true', 'true', 'true', '', '50', brawler.attackduration, '',
              brawler.range, '', '',
@@ -958,6 +977,8 @@ openFolder = tk.Button(root, text="Open CSV Logic Folder", font=("Times", 40, "b
                        command=csv_logic_path_selector)
 openLocalization = tk.Button(root, text="Open Localization Folder", font=("Times", 40, "bold"), fg="black",
                              command=csv_localization_pack_selector)
+openSc3d = tk.Button(root, text="Open sc3d Folder", font=("Times", 40, "bold"), fg="black",
+                             command=sc3d_pack_selector)
 text_entry1 = tk.Entry(root, font=("Times", 20))
 text_entry2 = tk.Entry(root, font=("Times", 20))
 text_entry3 = tk.Entry(root, font=("Times", 20))
